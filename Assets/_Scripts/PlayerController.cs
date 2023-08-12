@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 input;
     private Vector2 initialVelocity;
     private bool canMove;
+    private bool canDie;
 
     public enum movementStates {
         inWall,
@@ -47,6 +48,7 @@ public class PlayerController : MonoBehaviour
             initialVelocity = rb.velocity;
             rb.gravityScale = 0f;
             currentState = movementStates.inWall;
+            canDie = false;
         } else {
             rb.gravityScale = 1f;
             currentState = movementStates.falling;
@@ -57,7 +59,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(EnterWall());
         }
         if(prevState == movementStates.inWall && currentState == movementStates.falling) {
-            rb.AddForce(initialVelocity.normalized * exitForce, ForceMode2D.Impulse);
+            StartCoroutine(ExitWall());
         }
     }
 
@@ -73,6 +75,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
+        if(!canDie) return;
         SceneManager.LoadScene("DanTest"); //Debug Respawn
     }
 
@@ -86,4 +89,13 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(.1f);
         canMove = true;
     }
+
+    IEnumerator ExitWall() {
+        canDie = false;
+        rb.AddForce(initialVelocity.normalized * exitForce, ForceMode2D.Impulse);
+        yield return new WaitForSeconds(.1f);
+        canDie = true;
+    }
+
+
 }
