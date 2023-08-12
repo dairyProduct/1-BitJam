@@ -6,6 +6,9 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
     public float speed = 5f;
+    public float acceleration = 13f;
+    public float decceleration = 16f;
+    public float velpower = 0.5f;
 
     public movementStates currentState;
     public movementStates prevState;
@@ -16,8 +19,9 @@ public class PlayerController : MonoBehaviour
     bool isGrounded;
 
     Rigidbody2D rb;
-    Vector2 movement;
+    Vector2 input;
     Vector2 initialVelocity;
+    bool canMove;
 
     public enum movementStates {
         inWall,
@@ -35,23 +39,40 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapCircle(transform.position, 0.5f, groundMask);
 
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
+        input.x = Input.GetAxisRaw("Horizontal");
+        input.y = Input.GetAxisRaw("Vertical");
+        input.Normalize();
 
         prevState = currentState;
 
         if(isGrounded) {
+            initialVelocity = rb.velocity;
             rb.gravityScale = 0f;
-            rb.velocity /= 2f;
             currentState = movementStates.inWall;
+            
         } else {
             rb.gravityScale = 1f;
-            prevState = currentState;
             currentState = movementStates.falling;
+        }
+
+        if(prevState == movementStates.falling && currentState == movementStates.inWall) {
+            StartCoroutine(EnterWall());
         }
     }
 
     private void FixedUpdate() {
-        rb.velocity = isGrounded ? new Vector2(movement.x, movement.y) * speed : new Vector2(movement.x * speed, rb.velocity.y);
+        if(!canMove) return;
+        if(isGrounded) {
+            rb.velocity = new Vector2(input.x, input.y) * speed;
+        } else {
+            rb.velocity = new Vector2(input.x * speed, rb.velocity.y);
+        }
+    }
+
+    IEnumerator EnterWall() {
+        canMove = false;
+        rb.AddForce(initialVelocity * exitForce, ForceMode2D.Impulse);
+        yield return new WaitForSeconds(.2f);
+        canMove = true;
     }
 }
