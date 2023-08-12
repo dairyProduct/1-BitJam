@@ -6,11 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
     public float speed = 5f;
-
     public float playerSize = .3f;
-
-    public movementStates currentState;
-    public movementStates prevState;
 
     [Header("Jumping")]
     public float enterForce = 7f;
@@ -18,10 +14,13 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundMask;
     bool isGrounded;
 
-    Rigidbody2D rb;
-    Vector2 input;
-    Vector2 initialVelocity;
-    bool canMove;
+    [Header("Private")]
+    private movementStates currentState;
+    private movementStates prevState;
+    private Rigidbody2D rb;
+    private Vector2 input;
+    private Vector2 initialVelocity;
+    private bool canMove;
 
     public enum movementStates {
         inWall,
