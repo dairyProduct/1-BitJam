@@ -28,13 +28,11 @@ public class PlayerController : MonoBehaviour
         falling
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         isGrounded = Physics2D.OverlapCircle(transform.position, playerSize, groundMask);
@@ -49,12 +47,12 @@ public class PlayerController : MonoBehaviour
             initialVelocity = rb.velocity;
             rb.gravityScale = 0f;
             currentState = movementStates.inWall;
-            
         } else {
             rb.gravityScale = 1f;
             currentState = movementStates.falling;
         }
 
+        //Adds force when Exiting or entering a Wall
         if(prevState == movementStates.falling && currentState == movementStates.inWall) {
             StartCoroutine(EnterWall());
         }
@@ -66,8 +64,10 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate() {
         if(!canMove) return;
         if(isGrounded) {
+            //Wall Surfing Movement
             rb.velocity = new Vector2(input.x, input.y) * speed;
         } else {
+            //Falling
             rb.velocity = new Vector2(input.x * speed, rb.velocity.y);
         }
     }
@@ -76,14 +76,13 @@ public class PlayerController : MonoBehaviour
         SceneManager.LoadScene("DanTest"); //Debug Respawn
     }
 
-    IEnumerator EnterWall() {
+    IEnumerator EnterWall() { //Enter Wall Force
         canMove = false;
         if(input.magnitude > 0) {
             rb.AddForce(input * enterForce, ForceMode2D.Impulse);
         } else {
             rb.AddForce(initialVelocity.normalized * enterForce, ForceMode2D.Impulse);
         }
-        
         yield return new WaitForSeconds(.1f);
         canMove = true;
     }
