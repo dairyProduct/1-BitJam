@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     public float speed = 5f;
 
+    public movementStates currentState;
+    public movementStates prevState;
+
     [Header("Jumping")]
     public float exitForce = 10f;
     public LayerMask groundMask;
@@ -14,6 +17,12 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody2D rb;
     Vector2 movement;
+    Vector2 initialVelocity;
+
+    public enum movementStates {
+        inWall,
+        falling
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -29,10 +38,20 @@ public class PlayerController : MonoBehaviour
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
 
-        rb.gravityScale = isGrounded ? 0 : 1; //Changes gravity when player is in the air or ground
+        prevState = currentState;
+
+        if(isGrounded) {
+            rb.gravityScale = 0f;
+            rb.velocity /= 2f;
+            currentState = movementStates.inWall;
+        } else {
+            rb.gravityScale = 1f;
+            prevState = currentState;
+            currentState = movementStates.falling;
+        }
     }
 
     private void FixedUpdate() {
-        //rb.velocity = isGrounded ? new Vector2(movement.x, movement.y) * speed : new Vector2(movement.x * speed, rb.velocity.y);
+        rb.velocity = isGrounded ? new Vector2(movement.x, movement.y) * speed : new Vector2(movement.x * speed, rb.velocity.y);
     }
 }
