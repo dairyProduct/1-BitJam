@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -69,6 +70,10 @@ public class PlayerController : MonoBehaviour
         } else {
             rb.velocity = new Vector2(input.x * speed, rb.velocity.y);
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        SceneManager.LoadScene("DanTest"); //Debug Respawn
     }
 
     IEnumerator EnterWall() {
