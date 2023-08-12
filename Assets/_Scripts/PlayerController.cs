@@ -6,15 +6,15 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
     public float speed = 5f;
-    public float acceleration = 13f;
-    public float decceleration = 16f;
-    public float velpower = 0.5f;
+
+    public float playerSize = .3f;
 
     public movementStates currentState;
     public movementStates prevState;
 
     [Header("Jumping")]
-    public float exitForce = 10f;
+    public float enterForce = 7f;
+    public float exitForce = 15f;
     public LayerMask groundMask;
     bool isGrounded;
 
@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        isGrounded = Physics2D.OverlapCircle(transform.position, 0.5f, groundMask);
+        isGrounded = Physics2D.OverlapCircle(transform.position, playerSize, groundMask);
 
         input.x = Input.GetAxisRaw("Horizontal");
         input.y = Input.GetAxisRaw("Vertical");
@@ -58,6 +58,9 @@ public class PlayerController : MonoBehaviour
         if(prevState == movementStates.falling && currentState == movementStates.inWall) {
             StartCoroutine(EnterWall());
         }
+        if(prevState == movementStates.inWall && currentState == movementStates.falling) {
+            rb.AddForce(initialVelocity.normalized * exitForce, ForceMode2D.Impulse);
+        }
     }
 
     private void FixedUpdate() {
@@ -71,8 +74,13 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator EnterWall() {
         canMove = false;
-        rb.AddForce(initialVelocity * exitForce, ForceMode2D.Impulse);
-        yield return new WaitForSeconds(.2f);
+        if(input.magnitude > 0) {
+            rb.AddForce(input * enterForce, ForceMode2D.Impulse);
+        } else {
+            rb.AddForce(initialVelocity.normalized * enterForce, ForceMode2D.Impulse);
+        }
+        
+        yield return new WaitForSeconds(.1f);
         canMove = true;
     }
 }
