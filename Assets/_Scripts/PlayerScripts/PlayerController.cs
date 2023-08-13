@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
@@ -10,9 +11,10 @@ public class PlayerController : MonoBehaviour
     public float wallSurfSpeed = 5f;
     public float playerSize = .3f;
 
+    public float acceleration = 13f;
+    public float decceleration = 0f;
+    public float velPower = .95f;
     public float maxSpeed = 24f;
-    private float currentSpeed;
-    private float targetSpeed;
 
     [Header("Jumping")]
     public float enterForce = 7f;
@@ -35,7 +37,6 @@ public class PlayerController : MonoBehaviour
     private bool canDie;
     private bool canDash = true;
     private bool isDashing;
-    private bool deccelerate;
 
     public enum movementStates {
         inWall,
@@ -45,7 +46,6 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        currentSpeed = wallSurfSpeed;
     }
 
     void Update()
@@ -80,6 +80,10 @@ public class PlayerController : MonoBehaviour
         if(prevState == movementStates.inWall && currentState == movementStates.falling) {
             StartCoroutine(ExitWall());
         }
+
+        //Clamp Max Speed
+        Mathf.Clamp(rb.velocity.x, -maxSpeed, maxSpeed);
+        Mathf.Clamp(rb.velocity.y, -maxSpeed, maxSpeed);
     }
 
     private void FixedUpdate() {
@@ -89,7 +93,11 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(input.x, input.y) * wallSurfSpeed;
         } else {
             //Falling
-            rb.velocity = new Vector2(input.x * wallSurfSpeed, rb.velocity.y);
+            float targetSpeed = input.x * wallSurfSpeed;
+            float speedDiff = targetSpeed - rb.velocity.x;
+            float accelRate = Mathf.Abs(targetSpeed) > 0.01f ? acceleration : decceleration;
+            float movement = Mathf.Pow(Mathf.Abs(speedDiff) * accelRate, velPower) * Mathf.Sign(speedDiff);
+            rb.AddForce(movement * Vector2.right);
         }
     }
 
@@ -121,13 +129,13 @@ public class PlayerController : MonoBehaviour
         canDash = false;
         canMove = false;
         rb.gravityScale = 0;
-        rb.velocity = input * dashForce;
+        rb.AddForce(input * dashForce, ForceMode2D.Impulse);
         yield return new WaitForSeconds(dashTime);
         if(!isGrounded) {
             rb.gravityScale = 1;
         }
-        canMove = true;
         isDashing = false;
+        canMove = true;
     }
 
 

@@ -13622,8 +13622,12 @@ PrefabInstance:
       value: 0.96
       objectReference: {fileID: 0}
     - target: {fileID: 814116117007540074, guid: 145fde72d1ee2ec41a4c05ab4c310401, type: 3}
+      propertyPath: dashForce
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 814116117007540074, guid: 145fde72d1ee2ec41a4c05ab4c310401, type: 3}
       propertyPath: decceleration
-      value: 16
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 970585071210415212, guid: 145fde72d1ee2ec41a4c05ab4c310401, type: 3}
       propertyPath: m_LocalPosition.x
