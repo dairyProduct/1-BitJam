@@ -1,13 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
-    public float speed = 5f;
+    public float wallSurfSpeed = 5f;
     public float playerSize = .3f;
+
+    public float maxSpeed = 24f;
+    private float currentSpeed;
+    private float targetSpeed;
 
     [Header("Jumping")]
     public float enterForce = 7f;
@@ -30,15 +35,17 @@ public class PlayerController : MonoBehaviour
     private bool canDie;
     private bool canDash = true;
     private bool isDashing;
+    private bool deccelerate;
 
     public enum movementStates {
         inWall,
-        falling
+        falling,
     }
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        currentSpeed = wallSurfSpeed;
     }
 
     void Update()
@@ -79,10 +86,10 @@ public class PlayerController : MonoBehaviour
         if(!canMove) return;
         if(isGrounded) {
             //Wall Surfing Movement
-            rb.velocity = new Vector2(input.x, input.y) * speed;
+            rb.velocity = new Vector2(input.x, input.y) * wallSurfSpeed;
         } else {
             //Falling
-            rb.velocity = new Vector2(input.x * speed, rb.velocity.y);
+            rb.velocity = new Vector2(input.x * wallSurfSpeed, rb.velocity.y);
         }
     }
 
