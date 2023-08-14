@@ -12,10 +12,7 @@ public class CameraFollow : MonoBehaviour
     public float smoothSpeed = 0.125f; 
     [Tooltip("The offset of the camera to the target. Follow Distance")]
     public Vector3 offset;
-
-    private void Start() {
-        target = FindObjectOfType<PlayerController>().transform;
-    }
+    
     private void Update()
     {
         if(target == null) return;

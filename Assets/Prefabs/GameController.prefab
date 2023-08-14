@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b880c34ea12dea49a65c4d770272104, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 3020506587263389198, guid: 145fde72d1ee2ec41a4c05ab4c310401, type: 3}
+  cameraPrefab: {fileID: 8110241513627779429, guid: dfdba98894ee1a2439bb1b425a286d4c, type: 3}
   lastCheckPoint: {x: 0, y: 0, z: 0}
   playerSpawn: {fileID: 1911447965928902975}
 --- !u!1 &6831875747021888377
@@ -72,7 +74,7 @@ Transform:
   m_GameObject: {fileID: 6831875747021888377}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1.03, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
