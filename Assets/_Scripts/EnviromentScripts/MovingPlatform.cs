@@ -12,6 +12,7 @@ public class MovingPlatform : MonoBehaviour
     
 
     PlayerController player;
+    Rigidbody2D rb;
     bool playerInside;
     // Start is called before the first frame update
     void Start()
@@ -19,20 +20,21 @@ public class MovingPlatform : MonoBehaviour
         //platform must start at pos1 on scene load
         StartCoroutine(MovePlatform(pos2.position));
         player = FindObjectOfType<PlayerController>();
+        rb = GetComponent<Rigidbody2D>();
     }
     private IEnumerator MovePlatform(Vector3 nextPosition){
         Vector3 oldPosition = transform.position;
         yield return new WaitForSeconds(2f);
+        rb.velocity = (nextPosition - transform.position) * moveSpeed;
         while(transform.position != nextPosition){
-            yield return new WaitForSeconds(0.01f);
-            transform.position = Vector3.MoveTowards(transform.position, nextPosition, moveSpeed);
+            //yield return new WaitForSeconds(0.01f);
+            //transform.position = Vector3.MoveTowards(transform.position, nextPosition, moveSpeed);
             if(playerInside) {
-                Vector3 direction = nextPosition - transform.position;
-                Vector2 direction2D = new Vector2(direction.x, direction.y);
-                player.rb.AddForce(direction2D * 4f);
+                player.rb.AddForce((nextPosition - transform.position) * moveSpeed);
                 Debug.Log("Moving Player");
             }
         }
+        rb.velocity = Vector2.zero;
         StartCoroutine(MovePlatform(oldPosition));
     }
 
