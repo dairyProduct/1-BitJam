@@ -25,7 +25,9 @@ public class MovingPlatform : MonoBehaviour
     private IEnumerator MovePlatform(Vector3 nextPosition){
         Vector3 oldPosition = transform.position;
         yield return new WaitForSeconds(2f);
-        rb.velocity = (nextPosition - transform.position) * moveSpeed;
+        Vector3 direction = (nextPosition - oldPosition).normalized * moveSpeed;
+        Vector2 direction2D = new Vector2(direction.x, direction.y);
+        rb.velocity = direction2D;
         while(transform.position != nextPosition){
             //yield return new WaitForSeconds(0.01f);
             //transform.position = Vector3.MoveTowards(transform.position, nextPosition, moveSpeed);
