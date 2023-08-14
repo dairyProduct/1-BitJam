@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
     [Header("Private")]
     private movementStates currentState;
     private movementStates prevState;
-    private Rigidbody2D rb;
+    
     private Vector2 input;
     private Vector2 lastGroundedVelocity;
     private Vector2 lastAirVelocity;
@@ -49,6 +49,8 @@ public class PlayerController : MonoBehaviour
 
     [HideInInspector]
     public GameController gameController;
+    [HideInInspector]
+    public Rigidbody2D rb;
 
     public enum movementStates {
         inWall,
