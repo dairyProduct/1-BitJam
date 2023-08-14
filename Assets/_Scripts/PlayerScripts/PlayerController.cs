@@ -159,7 +159,7 @@ public class PlayerController : MonoBehaviour
         canMove = true;
     }
 
-    private IEnumerator PlayerDeath(){
+    public IEnumerator PlayerDeath(){
         
         died = true;
         rb.gravityScale = 0;

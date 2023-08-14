@@ -17,7 +17,7 @@ public class PlayerDetection : MonoBehaviour
 
     [Header("Detection")]
     [Tooltip("is player in FOV for long enough to be detected?")]
-    [SerializeField] bool playerDetected = false;
+    [SerializeField] private bool playerDetected = false;
     [Tooltip("How long for bot to detect player in FOV?")]
     [SerializeField] float detectionTime = 1.5f;
     [Tooltip("How long for bot to lose detection of playerafter leaving FOV?")]
@@ -25,7 +25,7 @@ public class PlayerDetection : MonoBehaviour
     [SerializeField] Transform player, flashLightPivotPoint;
 
     private BotMovementController botMovementController;
-    private Animator botAnimator;
+    private Animator botAnimator, exclimationMark;
     private bool BotHasLight = true; // if set to false, bot is unable to do any player detection
     private int rotationBias = 0; //1 for right, -1 for left
     private float changeBiasTimer, rotateTimer, lastSightingTime = 0;  //time between deciding to rotate left or right
@@ -33,6 +33,7 @@ public class PlayerDetection : MonoBehaviour
     {
         botMovementController = GetComponent<BotMovementController>();
         botAnimator = GetComponent<Animator>();
+        exclimationMark = GameObject.Find("Exclimation Mark").GetComponent<Animator>();
     }
 
     void Update()
@@ -42,7 +43,11 @@ public class PlayerDetection : MonoBehaviour
         if (PlayerInVision())
         {
             lastSightingTime = Time.time;
+            bool justFoundPlayer = true;
+            if(playerDetected) justFoundPlayer = false;
             playerDetected = true;
+            if(justFoundPlayer) exclimationMark.SetTrigger("Alert");
+            
             
         }
         else{
@@ -50,12 +55,9 @@ public class PlayerDetection : MonoBehaviour
         }
         float timeSinceInitialDetection = Time.time - lastSightingTime;
         
-        // Check if it's time to stop patrolling and return to normal behavior
-        
-        if(timeSinceInitialDetection < loseDetetcionTime){
-            BecomeAgressive();
-        }
-        else if (timeSinceInitialDetection >= loseDetetcionTime)
+
+
+        if (timeSinceInitialDetection >= loseDetetcionTime)
         {
             lostPlayer();
         }
@@ -110,11 +112,11 @@ public class PlayerDetection : MonoBehaviour
         playerDetected = false;
         botMovementController.IsPatrolling = true;
         Debug.Log("Lost em");
+        
         //if we cant dialogue, wait like 2 seconds then continue any dialogue left off on if the bots buddy is still near by
     }
 
-
-    /// <summary>
+    /// <summary>d
     /// Rotates flashlight left or right based on a bias value
     /// </summary>
     private void RandomFlashLightRotation(){
