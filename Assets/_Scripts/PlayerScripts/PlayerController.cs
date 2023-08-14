@@ -114,7 +114,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) {
         if(!canDie || died) return;
-        StartCoroutine(PlayerDeath());
+        if(other.tag == "Death") {
+            StartCoroutine(PlayerDeath());
+        }
     }
 
     private void PlayDeathParticles(){
@@ -134,7 +136,7 @@ public class PlayerController : MonoBehaviour
         canMove = true;
     }
 
-    IEnumerator ExitWall() {
+    IEnumerator ExitWall() { //Exit Wall Force
         canDie = false;
         rb.AddForce(initialVelocity.normalized * exitForce, ForceMode2D.Impulse);
         yield return new WaitForSeconds(.1f);

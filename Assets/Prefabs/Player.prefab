@@ -118,7 +118,7 @@ MonoBehaviour:
   dashTime: 0.5
   deathParticles1: {fileID: 8613144361246233528}
   deathParticles2: {fileID: 222455842201424687}
-  deathParticles3: {fileID: 0}
+  gameController: {fileID: 0}
 --- !u!50 &3031043689102349216
 Rigidbody2D:
   serializedVersion: 4
@@ -193,10 +193,10 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 4294967295
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 191
+    m_Bits: 4294967295
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
