@@ -105,11 +105,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallSurfSpeed: 6
   playerSize: 0.25
-  acceleration: 13
-  decceleration: 3
+  airAcceleration: 13
+  airDecceleration: 1
+  wallAcceleration: 13
+  wallDecceleration: 5
   velPower: 0.96
   maxSpeed: 24
-  enterForce: 2
+  enterForce: 3
   exitForce: 2
   groundMask:
     serializedVersion: 2
@@ -370,7 +372,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8435608946409906413}
   serializedVersion: 8
-  lengthInSec: 2
+  lengthInSec: 0.5
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -445,7 +447,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -5275,7 +5277,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9193275322360692149}
   serializedVersion: 8
-  lengthInSec: 2
+  lengthInSec: 0.5
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -5290,7 +5292,7 @@ ParticleSystem:
   startDelay:
     serializedVersion: 2
     minMaxState: 0
-    scalar: 1
+    scalar: 0
     minScalar: 0
     maxCurve:
       serializedVersion: 2
@@ -5350,7 +5352,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -5985,7 +5987,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0.72
     randomPositionAmount: 0.53
     radius:
-      value: 1
+      value: 0.5
       mode: 0
       spread: 0
       speed:
@@ -6264,7 +6266,7 @@ ParticleSystem:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-      cycleCount: 30
+      cycleCount: 10
       repeatInterval: 0.01
       probability: 1
   SizeModule:

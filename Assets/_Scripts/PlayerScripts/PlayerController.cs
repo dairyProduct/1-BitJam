@@ -11,8 +11,10 @@ public class PlayerController : MonoBehaviour
     public float wallSurfSpeed = 5f;
     public float playerSize = .3f;
 
-    public float acceleration = 13f;
-    public float decceleration = 0f;
+    public float airAcceleration = 13f;
+    public float airDecceleration = 0f;
+    public float wallAcceleration = 13f;
+    public float wallDecceleration = 0f;
     public float velPower = .95f;
     public float maxSpeed = 24f;
 
@@ -105,14 +107,14 @@ public class PlayerController : MonoBehaviour
             //Wall Surfing Movement
             Vector2 targetSpeed = input * wallSurfSpeed;
             Vector2 speedDiff = targetSpeed - rb.velocity;
-            Vector2 accelRate = new Vector2(Mathf.Abs(targetSpeed.x) > 0.01f ? acceleration : decceleration, Mathf.Abs(targetSpeed.y) > 0.01f ? acceleration : decceleration);
+            Vector2 accelRate = new Vector2(Mathf.Abs(targetSpeed.x) > 0.01f ? wallAcceleration : wallDecceleration, Mathf.Abs(targetSpeed.y) > 0.01f ? wallAcceleration : wallDecceleration);
             Vector2 movement = new Vector2(Mathf.Pow(Mathf.Abs(speedDiff.x) * accelRate.x, velPower) * Mathf.Sign(speedDiff.x), Mathf.Pow(Mathf.Abs(speedDiff.y) * accelRate.y, velPower) * Mathf.Sign(speedDiff.y));
             rb.AddForce(movement);
         } else {
             //Falling Movement
             float targetSpeed = input.x * wallSurfSpeed;
             float speedDiff = targetSpeed - rb.velocity.x;
-            float accelRate = Mathf.Abs(targetSpeed) > 0.01f ? acceleration : decceleration;
+            float accelRate = Mathf.Abs(targetSpeed) > 0.01f ? airAcceleration : airDecceleration;
             float movement = Mathf.Pow(Mathf.Abs(speedDiff) * accelRate, velPower) * Mathf.Sign(speedDiff);
             rb.AddForce(movement * Vector2.right);
         }
@@ -123,12 +125,6 @@ public class PlayerController : MonoBehaviour
         if(other.tag == "Death") {
             StartCoroutine(PlayerDeath());
         }
-    }
-
-    private void PlayDeathParticles(){
-        deathParticles1.Play();
-        deathParticles2.Play();
-        //deathParticles3.Play();
     }
 
     IEnumerator EnterWall() { //Enter Wall Force
@@ -166,16 +162,15 @@ public class PlayerController : MonoBehaviour
     private IEnumerator PlayerDeath(){
         
         died = true;
-        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        yield return new WaitForSeconds(0.5f);
-
-        PlayDeathParticles();
-        yield return new WaitForSeconds(0.5f);
+        rb.gravityScale = 0;
+        rb.velocity = Vector2.zero;
 
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<TrailRenderer>().enabled = false;
-        yield return new WaitForSeconds(1f);
+        deathParticles1.Play();
+        deathParticles2.Play();
 
+        yield return new WaitForSeconds(1f);
         
         transform.position = gameController.lastCheckPoint;
         GetComponent<SpriteRenderer>().enabled = true;
