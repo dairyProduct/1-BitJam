@@ -14,6 +14,7 @@ public class PlayerDetection : MonoBehaviour
 
 
 
+
     [Header("Detection")]
     [Tooltip("is player in FOV for long enough to be detected?")]
     [SerializeField] bool playerDetected = false;
@@ -21,42 +22,46 @@ public class PlayerDetection : MonoBehaviour
     [SerializeField] float detectionTime = 1.5f;
     [Tooltip("How long for bot to lose detection of playerafter leaving FOV?")]
     [SerializeField] float loseDetetcionTime = 2.5f;
-    [SerializeField] Transform player;
+    [SerializeField] Transform player, flashLightPivotPoint;
 
     private BotMovementController botMovementController;
     private Animator botAnimator;
-    private bool BotHasLight = true;
+    private bool BotHasLight = true; // if set to false, bot is unable to do any player detection
+    private int rotationBias = 0; //1 for right, -1 for left
+    private float changeBiasTimer, rotateTimer, lastSightingTime = 0;  //time between deciding to rotate left or right
     void Start()
     {
         botMovementController = GetComponent<BotMovementController>();
         botAnimator = GetComponent<Animator>();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if(!BotHasLight) return; // maybenot just return, maybe do something intresting while the bot can't see
-
-
-
-        float lastSightingTime = 0;
 
         if (PlayerInVision())
         {
             lastSightingTime = Time.time;
             playerDetected = true;
+            
         }
-        
-        // Check if it's time to stop patrolling and return to normal behavior
+        else{
+            RandomFlashLightRotation();
+        }
         float timeSinceInitialDetection = Time.time - lastSightingTime;
         
-        if(playerDetected && timeSinceInitialDetection > detectionTime){
+        // Check if it's time to stop patrolling and return to normal behavior
+        
+        if(playerDetected && timeSinceInitialDetection < loseDetetcionTime){
             BecomeAgressive();
         }
-        else if (!playerDetected && timeSinceInitialDetection > loseDetetcionTime)
+        else if (timeSinceInitialDetection >= loseDetetcionTime)
         {
             lostPlayer();
         }
     }
+
+
 
     /// <summary>
     /// checks to see if the player is in the bots field of view with raycasts and returns true if yes
@@ -64,27 +69,27 @@ public class PlayerDetection : MonoBehaviour
     private bool PlayerInVision(){
 
         float angleIncrement = flashlightAngle / (rayCount - 1);
-        float startAngle = flashlightSource.rotation.z;
-
+        float startAngle = flashlightSource.eulerAngles.z - 15;
+        bool playerInSight = false;
         for (int i = 0; i < rayCount; i++)
         {
-            float angle = startAngle + i * angleIncrement - ((startAngle + i * angleIncrement) / 2);
-            Vector3 rayDirection = Quaternion.Euler(0, 0, angle) * transform.right;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, rayDirection, detectionDistance);
-            Debug.DrawRay(transform.position, rayDirection * detectionDistance, Color.red);
+            float angle = startAngle + i * angleIncrement;
+            
+            Vector3 rayDirection = Quaternion.Euler(0, 0, angle) * Vector3.right;
+            RaycastHit2D hit = Physics2D.Raycast(flashlightSource.position, rayDirection, detectionDistance);
+            Debug.DrawRay(flashlightSource.position, rayDirection * detectionDistance, Color.red);
+
             if (hit.collider != null && hit.collider.CompareTag("Player"))
             {
-                Debug.Log("Player is in FOV!");
-                break; // Exit loop once player is detected
-            }
-            else if(hit.collider != null ){
-                //Debug.Log("Player is in FOV!");
-                break;
+                flashLightPivotPoint.rotation = Quaternion.Lerp(flashLightPivotPoint.rotation, Quaternion.Euler(0, 0, angle), 10 * Time.deltaTime);
+                playerInSight = true;
             }
         }
-        
-        return false;
+
+        return playerInSight;
     }
+
+
 
     /// <summary>
     /// if player is detected, stop patrolling, start attacking, maybe do a lil animation first to show they're now aggressive
@@ -92,22 +97,38 @@ public class PlayerDetection : MonoBehaviour
     private void BecomeAgressive(){
         playerDetected = true;
         botMovementController.IsPatrolling = false;
-        //botAttackController.IsAgressive = true;
-        AimForPlayer();
     }
 
+
+
     /// <summary>
-    /// do a lil animation to show that the bot is no longer in agro mode
+    /// do a lil animation to show that the bot is no longer in agro mode. stop tracking player
     /// </summary>
     private void lostPlayer(){
         playerDetected = false;
         botMovementController.IsPatrolling = true;
+        Debug.Log("Lost em");
         //botAttackController.IsAgressive = false;
     }
-    /// <summary>
-    /// Make the bot do a lil aiming to stay focused on the player
-    /// </summary>
-    private void AimForPlayer(){
+
+
+
+    private void RandomFlashLightRotation(){
+        changeBiasTimer -= Time.deltaTime;
+        rotateTimer -= Time.deltaTime;
         
+        if(changeBiasTimer <= 0f){
+            rotationBias = Random.Range(-1, 1); //set rotation bias to left or right
+            if(rotationBias == 0){
+                rotationBias = 1;
+            }
+            changeBiasTimer = Random.Range(4f, 6f); // time between potentially changing rotation directions
+        }
+
+        if(rotateTimer <= 0f){
+            flashLightPivotPoint.rotation = Quaternion.Euler(0, 0, flashLightPivotPoint.eulerAngles.z + 1 * rotationBias); //it's in fixed update so no need to call this every set amount of time
+            rotateTimer = 0.01f;
+        }
     }
+
 }

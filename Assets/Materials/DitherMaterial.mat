@@ -72,12 +72,12 @@ Material:
     m_Floats:
     - _AlphaClip: 1
     - _AlphaToMask: 0
-    - _Bits: 1
+    - _Bits: 1020
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _CastShadows: 1
     - _Cull: 2
-    - _DitherValue: 0.1
+    - _DitherValue: 0.4
     - _DitherValue2: 0.81
     - _DstBlend: 10
     - _EnableExternalAlpha: 0
