@@ -13,13 +13,8 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     private void Awake() {
         lastCheckPoint = playerSpawn.position;
-        Instantiate(playerPrefab, playerSpawn.position, Quaternion.identity);
-    }
-    
-    // Update is called once per frame
-    void Update()
-    {
-        
+        GameObject go = Instantiate(playerPrefab, playerSpawn.position, Quaternion.identity);
+        go.GetComponent<PlayerController>().gameController = this;
     }
 
     public void SetCheckPoint(Vector3 checkpoint) {

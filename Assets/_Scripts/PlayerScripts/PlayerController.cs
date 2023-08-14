@@ -44,6 +44,9 @@ public class PlayerController : MonoBehaviour
     private bool canDash = true;
     private bool isDashing;
 
+    [HideInInspector]
+    public GameController gameController;
+
     public enum movementStates {
         inWall,
         falling,
@@ -110,7 +113,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if(!canDie) return;
+        if(!canDie || died) return;
         StartCoroutine(PlayerDeath());
     }
 
@@ -165,7 +168,12 @@ public class PlayerController : MonoBehaviour
         GetComponent<TrailRenderer>().enabled = false;
         yield return new WaitForSeconds(1f);
 
-        SceneManager.LoadScene("DanTest");
+        
+        transform.position = gameController.lastCheckPoint;
+        GetComponent<SpriteRenderer>().enabled = true;
+        GetComponent<TrailRenderer>().enabled = true;
+        died = false;
+        
     }
 
 
