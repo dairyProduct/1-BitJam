@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 2884833001711882455}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -118,7 +118,6 @@ MonoBehaviour:
   dashTime: 0.5
   deathParticles1: {fileID: 8613144361246233528}
   deathParticles2: {fileID: 222455842201424687}
-  deathParticles3: {fileID: 0}
 --- !u!50 &3031043689102349216
 Rigidbody2D:
   serializedVersion: 4

@@ -151,9 +151,10 @@ public class PlayerController : MonoBehaviour
         canMove = true;
     }
 
-    private IEnumerator PlayerDeath(){
+    public IEnumerator PlayerDeath(){
         
         died = true;
+        rb.gravityScale = 0f;
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         yield return new WaitForSeconds(0.5f);
 
