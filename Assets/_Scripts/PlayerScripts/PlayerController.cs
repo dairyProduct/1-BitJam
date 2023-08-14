@@ -26,6 +26,11 @@ public class PlayerController : MonoBehaviour
     public float dashForce = 8f;
     public float dashTime = 0.5f;
 
+    [Header("Particles")]
+    public ParticleSystem deathParticles1;
+    public ParticleSystem deathParticles2;
+    //public ParticleSystem deathParticles3;
+
 
     [Header("Private")]
     private movementStates currentState;
@@ -35,6 +40,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 initialVelocity;
     private bool canMove;
     private bool canDie;
+    private bool died = false;
     private bool canDash = true;
     private bool isDashing;
 
@@ -50,6 +56,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if(died) return;
         isGrounded = Physics2D.OverlapCircle(transform.position, playerSize, groundMask);
 
         input.x = Input.GetAxisRaw("Horizontal");
@@ -87,7 +94,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        if(!canMove) return;
+        if(died) return;
         if(isGrounded) {
             //Wall Surfing Movement
             rb.velocity = new Vector2(input.x, input.y) * wallSurfSpeed;
@@ -103,7 +110,13 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) {
         if(!canDie) return;
-        SceneManager.LoadScene("DanTest"); //Debug Respawn
+        StartCoroutine(PlayerDeath());
+    }
+
+    private void PlayDeathParticles(){
+        deathParticles1.Play();
+        deathParticles2.Play();
+        //deathParticles3.Play();
     }
 
     IEnumerator EnterWall() { //Enter Wall Force
@@ -136,6 +149,22 @@ public class PlayerController : MonoBehaviour
         }
         isDashing = false;
         canMove = true;
+    }
+
+    private IEnumerator PlayerDeath(){
+        
+        died = true;
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        yield return new WaitForSeconds(0.5f);
+
+        PlayDeathParticles();
+        yield return new WaitForSeconds(0.5f);
+
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<TrailRenderer>().enabled = false;
+        yield return new WaitForSeconds(2f);
+
+        SceneManager.LoadScene("DanTest");
     }
 
 

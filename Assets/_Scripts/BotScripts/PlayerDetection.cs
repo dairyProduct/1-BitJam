@@ -52,7 +52,7 @@ public class PlayerDetection : MonoBehaviour
         
         // Check if it's time to stop patrolling and return to normal behavior
         
-        if(playerDetected && timeSinceInitialDetection < loseDetetcionTime){
+        if(timeSinceInitialDetection < loseDetetcionTime){
             BecomeAgressive();
         }
         else if (timeSinceInitialDetection >= loseDetetcionTime)
@@ -95,8 +95,9 @@ public class PlayerDetection : MonoBehaviour
     /// if player is detected, stop patrolling, start attacking, maybe do a lil animation first to show they're now aggressive
     /// </summary>
     private void BecomeAgressive(){
-        playerDetected = true;
+        //play an animation
         botMovementController.IsPatrolling = false;
+        //Set up new movement option
     }
 
 
@@ -105,14 +106,17 @@ public class PlayerDetection : MonoBehaviour
     /// do a lil animation to show that the bot is no longer in agro mode. stop tracking player
     /// </summary>
     private void lostPlayer(){
+        //play an animation
         playerDetected = false;
         botMovementController.IsPatrolling = true;
         Debug.Log("Lost em");
-        //botAttackController.IsAgressive = false;
+        //if we cant dialogue, wait like 2 seconds then continue any dialogue left off on if the bots buddy is still near by
     }
 
 
-
+    /// <summary>
+    /// Rotates flashlight left or right based on a bias value
+    /// </summary>
     private void RandomFlashLightRotation(){
         changeBiasTimer -= Time.deltaTime;
         rotateTimer -= Time.deltaTime;
