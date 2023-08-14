@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
         input.Normalize();
 
         prevState = currentState;
-
+        
         if(isGrounded) {
             initialVelocity = rb.velocity;
             rb.gravityScale = 0f;
@@ -75,6 +75,7 @@ public class PlayerController : MonoBehaviour
             currentState = movementStates.falling;
         }
 
+        //Dash Input
         if(Input.GetButtonDown("Jump") && !isGrounded && canDash) {
             StartCoroutine(Dash());
         }
@@ -99,7 +100,7 @@ public class PlayerController : MonoBehaviour
             //Wall Surfing Movement
             rb.velocity = new Vector2(input.x, input.y) * wallSurfSpeed;
         } else {
-            //Falling
+            //Falling Movement //Experimenting with different movements to see if we can conserve momentum
             float targetSpeed = input.x * wallSurfSpeed;
             float speedDiff = targetSpeed - rb.velocity.x;
             float accelRate = Mathf.Abs(targetSpeed) > 0.01f ? acceleration : decceleration;
@@ -162,7 +163,7 @@ public class PlayerController : MonoBehaviour
 
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<TrailRenderer>().enabled = false;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
 
         SceneManager.LoadScene("DanTest");
     }
