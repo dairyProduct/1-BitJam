@@ -103,14 +103,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 755f53d603b8b5c4ca80bcb0dd44fd8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wallSurfSpeed: 5
+  wallSurfSpeed: 6
   playerSize: 0.25
   acceleration: 13
   decceleration: 3
   velPower: 0.96
   maxSpeed: 24
-  enterForce: 7
-  exitForce: 1
+  enterForce: 2
+  exitForce: 2
   groundMask:
     serializedVersion: 2
     m_Bits: 8
