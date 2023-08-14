@@ -37,7 +37,8 @@ public class PlayerController : MonoBehaviour
     private movementStates prevState;
     private Rigidbody2D rb;
     private Vector2 input;
-    private Vector2 initialVelocity;
+    private Vector2 lastGroundedVelocity;
+    private Vector2 lastAirVelocity;
     private bool canMove;
     private bool canDie;
     private bool died = false;
@@ -67,15 +68,16 @@ public class PlayerController : MonoBehaviour
         input.Normalize();
 
         prevState = currentState;
-        
+
         if(isGrounded) {
-            initialVelocity = rb.velocity;
             rb.gravityScale = 0f;
             currentState = movementStates.inWall;
             canDie = false;
+            lastGroundedVelocity = rb.velocity;
         } else if(!isDashing) {
             rb.gravityScale = 1f;
             currentState = movementStates.falling;
+            lastAirVelocity = rb.velocity;
         }
 
         //Dash Input
@@ -101,9 +103,13 @@ public class PlayerController : MonoBehaviour
         if(died) return;
         if(isGrounded) {
             //Wall Surfing Movement
-            rb.velocity = new Vector2(input.x, input.y) * wallSurfSpeed;
+            Vector2 targetSpeed = input * wallSurfSpeed;
+            Vector2 speedDiff = targetSpeed - rb.velocity;
+            Vector2 accelRate = new Vector2(Mathf.Abs(targetSpeed.x) > 0.01f ? acceleration : decceleration, Mathf.Abs(targetSpeed.y) > 0.01f ? acceleration : decceleration);
+            Vector2 movement = new Vector2(Mathf.Pow(Mathf.Abs(speedDiff.x) * accelRate.x, velPower) * Mathf.Sign(speedDiff.x), Mathf.Pow(Mathf.Abs(speedDiff.y) * accelRate.y, velPower) * Mathf.Sign(speedDiff.y));
+            rb.AddForce(movement);
         } else {
-            //Falling Movement //Experimenting with different movements to see if we can conserve momentum
+            //Falling Movement
             float targetSpeed = input.x * wallSurfSpeed;
             float speedDiff = targetSpeed - rb.velocity.x;
             float accelRate = Mathf.Abs(targetSpeed) > 0.01f ? acceleration : decceleration;
@@ -127,10 +133,10 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator EnterWall() { //Enter Wall Force
         canMove = false;
-        if(input.magnitude > 0) {
+        if(input.magnitude != 0) {
             rb.AddForce(input * enterForce, ForceMode2D.Impulse);
         } else {
-            rb.AddForce(initialVelocity.normalized * enterForce, ForceMode2D.Impulse);
+            rb.AddForce(lastAirVelocity.normalized * enterForce, ForceMode2D.Impulse);
         }
         yield return new WaitForSeconds(.1f);
         canMove = true;
@@ -138,7 +144,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator ExitWall() { //Exit Wall Force
         canDie = false;
-        rb.AddForce(initialVelocity.normalized * exitForce, ForceMode2D.Impulse);
+        rb.AddForce(lastGroundedVelocity.normalized * exitForce, ForceMode2D.Impulse);
         yield return new WaitForSeconds(.1f);
         canDie = true;
     }
