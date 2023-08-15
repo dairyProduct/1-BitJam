@@ -2,28 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(BotMovementController))]
 public class PlayerDetection : MonoBehaviour
 {
     [Header("FlashLight")]
     public Transform flashlightSource;
-    public LayerMask detectionLayer;
     public float detectionDistance = 20f;
     public int rayCount = 30;
     public float flashlightAngle = 30f;
 
-
-
-
     [Header("Detection")]
     [Tooltip("is player in FOV for long enough to be detected?")]
-    [SerializeField] private bool playerDetected = false;
+    [SerializeField] public bool playerDetected = false;
     [Tooltip("How long for bot to detect player in FOV?")]
     [SerializeField] float detectionTime = 1.5f;
     [Tooltip("How long for bot to lose detection of playerafter leaving FOV?")]
     [SerializeField] float loseDetetcionTime = 2.5f;
-    [SerializeField] Transform player, flashLightPivotPoint;
+    [SerializeField] Transform flashLightPivotPoint;
 
+
+    private Transform player;
     private BotMovementController botMovementController;
     private Animator botAnimator, exclimationMark;
     private bool BotHasLight = true; // if set to false, bot is unable to do any player detection
@@ -31,6 +28,7 @@ public class PlayerDetection : MonoBehaviour
     private float changeBiasTimer, rotateTimer, lastSightingTime = 0;  //time between deciding to rotate left or right
     void Start()
     {
+        player = GameObject.Find("Player(Clone)").transform;
         botMovementController = GetComponent<BotMovementController>();
         botAnimator = GetComponent<Animator>();
         exclimationMark = GameObject.Find("Exclimation Mark").GetComponent<Animator>();

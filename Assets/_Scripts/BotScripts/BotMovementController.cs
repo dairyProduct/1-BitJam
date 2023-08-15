@@ -7,25 +7,25 @@ using UnityEngine;
 public class BotMovementController : MonoBehaviour
 {
     [SerializeField] Vector3 positionA, positionB;
-    [SerializeField] Transform player;
     [SerializeField] float botMoveSpeed, botJumpoForce, moveTimer = 3f;
 
+    private Transform player;
     private Rigidbody2D botRigidbody;
 
-    [Tooltip("Is the bot actively chasing/attacking/aknowledging the players existance")]
+
     private bool isPatrolling = false;
     [Tooltip("Is the bot actively chasing/attacking/aknowledging the players existance")]
     public bool IsPatrolling
     {
-    set { isPatrolling = value; }  // we want events that occur in the world around the bot to determine whether it is patrolling or not(write only)
+    set { isPatrolling = value; }  
     }
-
     private float jumpTimer = 3f;
 
 
 
     void Start()
     {
+        player = GameObject.Find("Player(Clone)").transform;
         botRigidbody = GetComponent<Rigidbody2D>();
     }
 

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bot
   - Death
+  - Ground
   layers:
   - Default
   - TransparentFX

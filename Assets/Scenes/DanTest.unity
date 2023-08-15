@@ -276,6 +276,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bot
       objectReference: {fileID: 0}
+    - target: {fileID: 7647514602921367460, guid: f6efea9894a96534798dde0cd4dcb2f5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7979832614492237353, guid: f6efea9894a96534798dde0cd4dcb2f5, type: 3}
       propertyPath: m_SortingOrder
       value: -1
@@ -13849,13 +13853,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1911447965928902975, guid: 1dab64da74d6dd04f9f01c6d1ceed02b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2211795154862640972, guid: 1dab64da74d6dd04f9f01c6d1ceed02b, type: 3}
+      propertyPath: lastCheckPoint.y
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 3737011357297389962, guid: 1dab64da74d6dd04f9f01c6d1ceed02b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.04
       objectReference: {fileID: 0}
     - target: {fileID: 3737011357297389962, guid: 1dab64da74d6dd04f9f01c6d1ceed02b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 15.68
       objectReference: {fileID: 0}
     - target: {fileID: 3737011357297389962, guid: 1dab64da74d6dd04f9f01c6d1ceed02b, type: 3}
       propertyPath: m_LocalPosition.z
