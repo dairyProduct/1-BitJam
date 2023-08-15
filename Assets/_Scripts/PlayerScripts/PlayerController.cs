@@ -205,11 +205,12 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         
-        transform.position = gameController.lastCheckPoint;
-        lightExposure = 0;
+        //transform.position = gameController.lastCheckPoint;
+        //lightExposure = 0;
         //lightUpdate();
         GetComponent<SpriteRenderer>().enabled = true;
         GetComponent<TrailRenderer>().enabled = true;
+        SceneManager.LoadScene("Main_01");
         died = false;
         
     }

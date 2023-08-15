@@ -25,6 +25,9 @@ public class GameController : MonoBehaviour
         GameObject cam = Instantiate(cameraPrefab, playerSpawn.position, Quaternion.identity);
         cam.GetComponent<CameraFollow>().target = go.transform;
     }
+    private void Start() {
+        StartCoroutine(SpawnEnemies());
+    }
 
     public void SetCheckPoint(Vector3 checkpoint) {
         lastCheckPoint = checkpoint;
@@ -35,6 +38,16 @@ public class GameController : MonoBehaviour
     }
 
     IEnumerator SpawnEnemies() {
-        yield return new WaitForSeconds(0);
+        for (int i = 0; i < 5; i++)
+        {
+            yield return new WaitForSeconds(Random.Range(.2f, 1f));
+            Instantiate(lostSoul, GetRandomPointInsideSpawnArea(), Quaternion.identity);
+        }
+        yield return new WaitForSeconds(3f);
+        StartCoroutine(SpawnEnemies());
+    }
+
+    public Vector3 GetRandomPointInsideSpawnArea() {
+        return new Vector3(Random.Range(spawnZone.bounds.min.x, spawnZone.bounds.max.x), Random.Range(spawnZone.bounds.min.y, spawnZone.bounds.max.y), 0f);
     }
 }
