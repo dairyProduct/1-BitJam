@@ -12,7 +12,6 @@ public class MovingPlatform : MonoBehaviour
     
 
     PlayerController player;
-    Rigidbody2D rb;
     bool playerInside;
     // Start is called before the first frame update
     void Start()
@@ -20,35 +19,28 @@ public class MovingPlatform : MonoBehaviour
         //platform must start at pos1 on scene load
         StartCoroutine(MovePlatform(pos2.position));
         player = FindObjectOfType<PlayerController>();
-        rb = GetComponent<Rigidbody2D>();
     }
     private IEnumerator MovePlatform(Vector3 nextPosition){
         Vector3 oldPosition = transform.position;
         yield return new WaitForSeconds(2f);
-        Vector3 direction = (nextPosition - oldPosition).normalized * moveSpeed;
-        Vector2 direction2D = new Vector2(direction.x, direction.y);
-        rb.velocity = direction2D;
         while(transform.position != nextPosition){
-            //yield return new WaitForSeconds(0.01f);
-            //transform.position = Vector3.MoveTowards(transform.position, nextPosition, moveSpeed);
-            if(playerInside) {
-                player.rb.AddForce((nextPosition - transform.position) * moveSpeed);
-                Debug.Log("Moving Player");
-            }
+            yield return new WaitForSeconds(0.01f);
+            transform.position = Vector3.MoveTowards(transform.position, nextPosition, moveSpeed);
         }
-        rb.velocity = Vector2.zero;
         StartCoroutine(MovePlatform(oldPosition));
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.tag == "Player") {
             playerInside = true;
+            other.transform.parent = transform;
         }
     }
 
     private void OnTriggerExit2D(Collider2D other) {
         if(other.tag == "Player") {
             playerInside = false;
+            other.transform.parent = null;
         }
     }
 }
