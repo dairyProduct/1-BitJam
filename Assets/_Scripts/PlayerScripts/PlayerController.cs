@@ -33,6 +33,11 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem deathParticles2;
     //public ParticleSystem deathParticles3;
 
+    [Header("Light")]
+    public float lightExposure;
+    public float maxLightExposure = 100f;
+    public bool inLight;
+
 
     [Header("Private")]
     private movementStates currentState;
@@ -73,6 +78,18 @@ public class PlayerController : MonoBehaviour
 
         prevState = currentState;
 
+        //Light exposure
+        if(inLight) {
+            lightExposure += Time.deltaTime;
+            Mathf.Clamp(lightExposure, 0f, maxLightExposure);
+        }
+        if(lightExposure >= maxLightExposure) {
+            died = true;
+            StartCoroutine(PlayerDeath());
+        }
+
+
+        //Grounded or ungrounded states
         if(isGrounded) {
             rb.gravityScale = 0f;
             currentState = movementStates.inWall;
