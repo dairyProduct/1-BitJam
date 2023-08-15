@@ -131,7 +131,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        if(died) return;
+        if(died || !canMove) return;
         if(isGrounded) {
             //Wall Surfing Movement
             Vector2 targetSpeed = input * wallSurfSpeed;
@@ -179,8 +179,10 @@ public class PlayerController : MonoBehaviour
         canDash = false;
         canMove = false;
         rb.gravityScale = 0;
+        rb.velocity = Vector2.zero;
         rb.AddForce(input * dashForce, ForceMode2D.Impulse);
         yield return new WaitForSeconds(dashTime);
+        rb.velocity = input * wallSurfSpeed;
         if(!isGrounded) {
             rb.gravityScale = 1;
         }

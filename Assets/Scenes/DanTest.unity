@@ -309,7 +309,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -14027,6 +14027,7 @@ GameObject:
   - component: {fileID: 1733828200}
   - component: {fileID: 1733828199}
   - component: {fileID: 1733828198}
+  - component: {fileID: 1733828202}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -14117,6 +14118,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1733828202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733828197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7c631cd5fc61e4da13da8b5011fcf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightBar: {fileID: 1609726842}
+  lightPercent: {fileID: 87791099}
 --- !u!1 &1923528606
 GameObject:
   m_ObjectHideFlags: 0
