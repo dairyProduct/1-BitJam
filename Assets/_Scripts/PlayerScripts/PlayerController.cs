@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     [Header("Particles")]
     public ParticleSystem deathParticles1;
     public ParticleSystem deathParticles2;
+    public GameObject EnterParticles;
     //public ParticleSystem deathParticles3;
 
     [Header("Light")]
@@ -69,7 +70,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        lightUpdate();
+        //lightUpdate();
     }
 
     void Update()
@@ -91,7 +92,7 @@ public class PlayerController : MonoBehaviour
         } else if(!inLight && isGrounded){
             lightExposure -= detectionSpeed;
             lightExposure = Mathf.Clamp(lightExposure, 0f, maxLightExposure);
-            lightUpdate();
+            //lightUpdate();
         }
         if(lightExposure >= maxLightExposure) {
             died = true;
@@ -120,6 +121,7 @@ public class PlayerController : MonoBehaviour
         if(prevState == movementStates.falling && currentState == movementStates.inWall) {
             StartCoroutine(EnterWall());
             canDash = true;
+            Instantiate(EnterParticles, transform.position, Quaternion.identity);
         }
         if(prevState == movementStates.inWall && currentState == movementStates.falling) {
             StartCoroutine(ExitWall());
@@ -205,7 +207,7 @@ public class PlayerController : MonoBehaviour
         
         transform.position = gameController.lastCheckPoint;
         lightExposure = 0;
-        lightUpdate();
+        //lightUpdate();
         GetComponent<SpriteRenderer>().enabled = true;
         GetComponent<TrailRenderer>().enabled = true;
         died = false;
