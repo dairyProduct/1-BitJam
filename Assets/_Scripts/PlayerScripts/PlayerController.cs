@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
@@ -37,6 +38,7 @@ public class PlayerController : MonoBehaviour
     public float lightExposure;
     public float maxLightExposure = 100f;
     public bool inLight;
+    public callback lightUpdate;
 
 
     [Header("Private")]
@@ -51,6 +53,7 @@ public class PlayerController : MonoBehaviour
     private bool died = false;
     private bool canDash = true;
     private bool isDashing;
+    public delegate void callback();
 
     [HideInInspector]
     public GameController gameController;
@@ -82,6 +85,7 @@ public class PlayerController : MonoBehaviour
         if(inLight) {
             lightExposure += Time.deltaTime;
             Mathf.Clamp(lightExposure, 0f, maxLightExposure);
+            lightUpdate();
         }
         if(lightExposure >= maxLightExposure) {
             died = true;
