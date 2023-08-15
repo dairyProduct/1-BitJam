@@ -11,6 +11,12 @@ public class GameController : MonoBehaviour
     [Header("Checkpoints / Spawn")]
     public Vector3 lastCheckPoint;
     public Transform playerSpawn;
+
+    [Header("EnemyPrefabs")]
+    public GameObject hand;
+    public GameObject lostSoul;
+
+    public BoxCollider2D spawnZone;
     // Start is called before the first frame update
     private void Awake() {
         lastCheckPoint = playerSpawn.position;
@@ -22,5 +28,13 @@ public class GameController : MonoBehaviour
 
     public void SetCheckPoint(Vector3 checkpoint) {
         lastCheckPoint = checkpoint;
+    }
+
+    private void Update() {
+        
+    }
+
+    IEnumerator SpawnEnemies() {
+        yield return new WaitForSeconds(0);
     }
 }
