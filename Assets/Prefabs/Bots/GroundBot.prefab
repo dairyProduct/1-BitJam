@@ -1202,7 +1202,7 @@ GameObject:
   - component: {fileID: 6684836813834402812}
   - component: {fileID: 3684919260576874824}
   m_Layer: 0
-  m_Name: Bot
+  m_Name: GroundBot
   m_TagString: Bot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

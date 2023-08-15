@@ -7,7 +7,8 @@ public class BulletAimer : MonoBehaviour
     [SerializeField] float speed, trackingTime = 10f; 
     [SerializeField] ParticleSystem ps1, ps2;
 
-    private Transform player; 
+    private Transform player;
+    private PlayerController playerController; 
     private bool isTracking = true; 
     private bool collided = false;
     private Vector3 direction;
@@ -16,6 +17,7 @@ public class BulletAimer : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player(Clone)").transform;
+        playerController = player.GetComponent<PlayerController>();
         //GetComponent<AudioSource>().clip = sounds[Random.Range(0, sounds.Length-1)];
         //GetComponent<AudioSource>().Play(0);
         Invoke("StopTracking", trackingTime);
@@ -40,8 +42,11 @@ public class BulletAimer : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D col){
-        if(col.gameObject.tag == "Player" /*|| col.gameObject.tag == "Ground"*/){
-            
+        if(col.gameObject.tag == "Player" /*|| */){ //if we wanna make the bullet break on ground cliision. for now it's off idk 
+            playerController.lightExposure = playerController.maxLightExposure;
+            StartCoroutine(DestroyEnergyBall());
+        }
+        else if(col.gameObject.tag == "Ground"){
             StartCoroutine(DestroyEnergyBall());
         }
     }
