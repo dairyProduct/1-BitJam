@@ -120,6 +120,10 @@ MonoBehaviour:
   dashTime: 0.5
   deathParticles1: {fileID: 8613144361246233528}
   deathParticles2: {fileID: 222455842201424687}
+  detectionSpeed: 1
+  lightExposure: 0
+  maxLightExposure: 100
+  inLight: 0
   gameController: {fileID: 0}
   rb: {fileID: 0}
 --- !u!50 &3031043689102349216

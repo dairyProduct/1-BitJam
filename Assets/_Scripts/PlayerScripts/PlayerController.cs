@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
     //public ParticleSystem deathParticles3;
 
     [Header("Light")]
+    public float detectionSpeed = 1f;
     public float lightExposure;
     public float maxLightExposure = 100f;
     public bool inLight;
@@ -68,6 +69,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        lightUpdate();
     }
 
     void Update()
@@ -83,8 +85,12 @@ public class PlayerController : MonoBehaviour
 
         //Light exposure
         if(inLight) {
-            lightExposure += Time.deltaTime;
-            Mathf.Clamp(lightExposure, 0f, maxLightExposure);
+            lightExposure += detectionSpeed;
+            lightExposure = Mathf.Clamp(lightExposure, 0f, maxLightExposure);
+            lightUpdate();
+        } else if(!inLight && isGrounded){
+            lightExposure -= detectionSpeed;
+            lightExposure = Mathf.Clamp(lightExposure, 0f, maxLightExposure);
             lightUpdate();
         }
         if(lightExposure >= maxLightExposure) {
@@ -196,6 +202,8 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         
         transform.position = gameController.lastCheckPoint;
+        lightExposure = 0;
+        lightUpdate();
         GetComponent<SpriteRenderer>().enabled = true;
         GetComponent<TrailRenderer>().enabled = true;
         died = false;
