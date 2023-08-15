@@ -12,10 +12,11 @@ public class HandMovement : MonoBehaviour
     private Transform player;
     private Vector2 targetPosition;
     private Rigidbody2D rb;
-    private float timer;
+    private float movementTimer;
 
     private void Start()
     {
+        movementTimer = movementInterval + 2f;
         player = GameObject.Find("Player(Clone)").transform;
         rb = GetComponent<Rigidbody2D>();
         ChooseRandomTargetPosition();
@@ -23,12 +24,12 @@ public class HandMovement : MonoBehaviour
 
     private void Update()
     {
-        timer += Time.deltaTime;
+        movementTimer -= Time.deltaTime;
 
-        if (timer >= movementInterval)
+        if (movementTimer <= 0)
         {
             ChooseRandomTargetPosition();
-            timer = 0f;
+            movementTimer = movementInterval;
             Vector3 playerPos = player.position;
 
             if(Vector2.Distance(transform.position, playerPos) <= attackDistance ){
