@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
     private bool canDie;
     private bool died = false;
     private bool canDash = true;
-    private bool isDashing;
+    public bool isDashing;
     public delegate void callback();
 
     [HideInInspector]
