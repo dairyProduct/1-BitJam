@@ -116,11 +116,16 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 8
-  dashForce: 5
-  dashTime: 0.5
+  dashForce: 15
+  dashTime: 0.2
   deathParticles1: {fileID: 8613144361246233528}
   deathParticles2: {fileID: 222455842201424687}
+  detectionSpeed: 1
+  lightExposure: 0
+  maxLightExposure: 100
+  inLight: 0
   gameController: {fileID: 0}
+  rb: {fileID: 0}
 --- !u!50 &3031043689102349216
 Rigidbody2D:
   serializedVersion: 4
@@ -195,10 +200,10 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

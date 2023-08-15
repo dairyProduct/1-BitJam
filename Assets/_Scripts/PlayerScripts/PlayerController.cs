@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
@@ -33,11 +34,18 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem deathParticles2;
     //public ParticleSystem deathParticles3;
 
+    [Header("Light")]
+    public float detectionSpeed = 1f;
+    public float lightExposure;
+    public float maxLightExposure = 100f;
+    public bool inLight;
+    public callback lightUpdate;
+
 
     [Header("Private")]
     private movementStates currentState;
     private movementStates prevState;
-    private Rigidbody2D rb;
+    
     private Vector2 input;
     private Vector2 lastGroundedVelocity;
     private Vector2 lastAirVelocity;
@@ -46,9 +54,12 @@ public class PlayerController : MonoBehaviour
     private bool died = false;
     private bool canDash = true;
     private bool isDashing;
+    public delegate void callback();
 
     [HideInInspector]
     public GameController gameController;
+    [HideInInspector]
+    public Rigidbody2D rb;
 
     public enum movementStates {
         inWall,
@@ -58,6 +69,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        lightUpdate();
     }
 
     void Update()
@@ -71,6 +83,23 @@ public class PlayerController : MonoBehaviour
 
         prevState = currentState;
 
+        //Light exposure
+        if(inLight) {
+            lightExposure += detectionSpeed;
+            lightExposure = Mathf.Clamp(lightExposure, 0f, maxLightExposure);
+            lightUpdate();
+        } else if(!inLight && isGrounded){
+            lightExposure -= detectionSpeed;
+            lightExposure = Mathf.Clamp(lightExposure, 0f, maxLightExposure);
+            lightUpdate();
+        }
+        if(lightExposure >= maxLightExposure) {
+            died = true;
+            StartCoroutine(PlayerDeath());
+        }
+
+
+        //Grounded or ungrounded states
         if(isGrounded) {
             rb.gravityScale = 0f;
             currentState = movementStates.inWall;
@@ -102,7 +131,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        if(died) return;
+        if(died || !canMove) return;
         if(isGrounded) {
             //Wall Surfing Movement
             Vector2 targetSpeed = input * wallSurfSpeed;
@@ -150,8 +179,10 @@ public class PlayerController : MonoBehaviour
         canDash = false;
         canMove = false;
         rb.gravityScale = 0;
+        rb.velocity = Vector2.zero;
         rb.AddForce(input * dashForce, ForceMode2D.Impulse);
         yield return new WaitForSeconds(dashTime);
+        rb.velocity = input * wallSurfSpeed;
         if(!isGrounded) {
             rb.gravityScale = 1;
         }
@@ -173,6 +204,8 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         
         transform.position = gameController.lastCheckPoint;
+        lightExposure = 0;
+        lightUpdate();
         GetComponent<SpriteRenderer>().enabled = true;
         GetComponent<TrailRenderer>().enabled = true;
         died = false;

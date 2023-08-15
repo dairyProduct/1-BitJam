@@ -26,12 +26,15 @@ public class PlayerDetection : MonoBehaviour
     private bool BotHasLight = true; // if set to false, bot is unable to do any player detection
     private int rotationBias = 0; //1 for right, -1 for left
     private float changeBiasTimer, rotateTimer, lastSightingTime = 0;  //time between deciding to rotate left or right
+
+    private PlayerController playerController;
     void Start()
     {
         player = GameObject.Find("Player(Clone)").transform;
         botMovementController = GetComponent<BotMovementController>();
         botAnimator = GetComponent<Animator>();
         exclimationMark = GameObject.Find("Exclimation Mark").GetComponent<Animator>();
+        playerController = FindObjectOfType<PlayerController>();
     }
 
     void Update()
@@ -45,11 +48,12 @@ public class PlayerDetection : MonoBehaviour
             if(playerDetected) justFoundPlayer = false;
             playerDetected = true;
             if(justFoundPlayer) exclimationMark.SetTrigger("Alert");
-            
+            playerController.inLight = true;
             
         }
         else{
             RandomFlashLightRotation();
+            playerController.inLight = false;
         }
         float timeSinceInitialDetection = Time.time - lastSightingTime;
         
