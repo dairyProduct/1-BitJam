@@ -6,11 +6,14 @@ public class EyeController : MonoBehaviour
 {
     [Header("Variables")]
     public float chargeTime = 3f;
+    public float lookSpeed = 2f;
 
     [Header("Components")]
     LineRenderer lr;
     Rigidbody2D rb;
     PlayerController playerController;
+    bool charging;
+    Vector2 currentLookatPoint;
 
     float time;
     void Start()
@@ -18,34 +21,42 @@ public class EyeController : MonoBehaviour
         playerController = FindObjectOfType<PlayerController>();
         lr = GetComponent<LineRenderer>();
         rb = GetComponent<Rigidbody2D>();
-        StartCoroutine(Fire());
+        StartCoroutine(Charge());
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-    }
+        if(charging && time > 0) {
+            time -= Time.deltaTime;
 
-    IEnumerator Fire() {
-        time = chargeTime;
-        lr.enabled = true;
-        while (time > 0)
-        {
-            //time -= 0.001f;
+            currentLookatPoint = Vector2.Lerp(currentLookatPoint, playerController.transform.position, Time.deltaTime * lookSpeed);
+
+            Vector2 direction = (currentLookatPoint - (Vector2)transform.position).normalized;
 
             //Set Line Renderer
             lr.SetPosition(0, transform.position);
-            lr.SetPosition(1, playerController.transform.position);
+            lr.SetPosition(1, direction * 15f);
 
-
-            Vector3 direction = (playerController.transform.position - transform.position).normalized;
-            Vector2 direction2D = new Vector2(direction.x, direction.y);
             
+            transform.right = direction;
+        } else if(charging && time <= 0){
+            charging = false;
+            lr.enabled = false;
+
+            //Fire
         }
+        
+    }
+
+    IEnumerator Charge() {
+        time = chargeTime;
+        lr.enabled = true;
+        currentLookatPoint = playerController.transform.position;
+        charging = true;
+        
         //Fire
         //lr.enabled = false;
-        Debug.Log("Finished");
         yield return null;
     }
 }
