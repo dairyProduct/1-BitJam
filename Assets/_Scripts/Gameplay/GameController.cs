@@ -26,7 +26,7 @@ public class GameController : MonoBehaviour
         //cam.GetComponent<CameraFollow>().target = go.transform;
     }
     private void Start() {
-        //StartCoroutine(SpawnEnemies());
+        StartCoroutine(SpawnEnemies());
     }
 
     public void SetCheckPoint(Vector3 checkpoint) {
@@ -38,12 +38,12 @@ public class GameController : MonoBehaviour
     }
 
     IEnumerator SpawnEnemies() {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 3; i++)
         {
             yield return new WaitForSeconds(Random.Range(.2f, 1f));
             Instantiate(lostSoul, GetRandomPointInsideSpawnArea(), Quaternion.identity);
         }
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(7f);
         StartCoroutine(SpawnEnemies());
     }
 
