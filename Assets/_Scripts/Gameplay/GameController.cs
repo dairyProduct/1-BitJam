@@ -22,11 +22,11 @@ public class GameController : MonoBehaviour
         lastCheckPoint = playerSpawn.position;
         GameObject go = Instantiate(playerPrefab, playerSpawn.position, Quaternion.identity);
         go.GetComponent<PlayerController>().gameController = this;
-        GameObject cam = Instantiate(cameraPrefab, playerSpawn.position, Quaternion.identity);
-        cam.GetComponent<CameraFollow>().target = go.transform;
+        //GameObject cam = Instantiate(cameraPrefab, playerSpawn.position, Quaternion.identity);
+        //cam.GetComponent<CameraFollow>().target = go.transform;
     }
     private void Start() {
-        StartCoroutine(SpawnEnemies());
+        //StartCoroutine(SpawnEnemies());
     }
 
     public void SetCheckPoint(Vector3 checkpoint) {

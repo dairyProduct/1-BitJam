@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Reposition : MonoBehaviour
 {
@@ -9,13 +10,10 @@ public class Reposition : MonoBehaviour
     void Start()
     {
         GameObject[] nextPositions = GameObject.FindGameObjectsWithTag("NextSegmentPosition");
-        newPosition = transform.position;
-        foreach(GameObject nextposition in nextPositions){
-            Vector3 currentPosition = nextposition.transform.position;
-            if(currentPosition.y > newPosition.y){
-                newPosition = currentPosition;
-            }
-        }
+        newPosition = Vector3.zero;
+        float[] positions = {nextPositions[0].transform.position.y, nextPositions[1].transform.position.y, nextPositions[2].transform.position.y};
+        newPosition = new Vector3(0, positions.Min(), 0);
+        RepositionTileMap();
     }
 
     // Update is called once per frame

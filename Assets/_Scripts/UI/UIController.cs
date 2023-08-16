@@ -9,14 +9,16 @@ public class UIController : MonoBehaviour
     [Header("LightBar")]
     public Slider lightBar;
     public TMP_Text lightPercent;
+    public TMP_Text yLevel;
 
 
-
+    private Transform player;
     PlayerController playerController;
     void Start()
     {
-        playerController = FindObjectOfType<PlayerController>();
-        playerController.lightUpdate += UpdateLightBar;
+        player = GameObject.Find("Player(Clone)").transform;
+        //playerController = FindObjectOfType<PlayerController>();
+        //playerController.lightUpdate += UpdateLightBar;
     }
 
     public void UpdateLightBar() {
@@ -27,6 +29,6 @@ public class UIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        yLevel.text = ((int)player.transform.position.y).ToString();
     }
 }

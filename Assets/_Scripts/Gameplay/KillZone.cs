@@ -19,8 +19,8 @@ public class KillZone : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if(other == null) return;
         if(other.tag == "Player") {
-            PlayerController player = GetComponent<PlayerController>();
-            player.StartCoroutine(player.PlayerDeath());
+            PlayerController player = other.gameObject.GetComponent<PlayerController>();
+            StartCoroutine(player.PlayerDeath());
         }
     }
 }
