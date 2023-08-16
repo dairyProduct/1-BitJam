@@ -7,6 +7,10 @@ public class EyeController : MonoBehaviour
     [Header("Variables")]
     public float chargeTime = 3f;
     public float lookSpeed = 2f;
+    public float kickBackForce = 25f;
+
+    [Header("Particles")]
+    public GameObject ChargeParticles;
 
     [Header("Components")]
     LineRenderer lr;
@@ -14,6 +18,9 @@ public class EyeController : MonoBehaviour
     PlayerController playerController;
     bool charging;
     Vector2 currentLookatPoint;
+
+    ParticleSystem currentParticle;
+    Vector2 direction;
 
     float time;
     void Start()
@@ -27,33 +34,43 @@ public class EyeController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(charging && time > 0) {
-            time -= Time.deltaTime;
+        if(charging && time < chargeTime) {
+            time += Time.deltaTime;
 
             currentLookatPoint = Vector2.Lerp(currentLookatPoint, playerController.transform.position, Time.deltaTime * lookSpeed);
 
-            Vector2 direction = (currentLookatPoint - (Vector2)transform.position).normalized;
+            direction = (currentLookatPoint - (Vector2)transform.position).normalized;
 
             //Set Line Renderer
             lr.SetPosition(0, transform.position);
             lr.SetPosition(1, direction * 15f);
 
+            lr.material.SetFloat("Speed", time / chargeTime * -10f);
+
+            //ChargeParticleSpeed
+            //currentParticle.emission.rateOverTimeMultiplier = (chargeTime - time) * 10f;
             
             transform.right = direction;
-        } else if(charging && time <= 0){
+        } else if(charging && time >= chargeTime){
             charging = false;
             lr.enabled = false;
+            if(currentParticle != null){
+                Destroy(currentParticle.gameObject);
+            }
 
             //Fire
+            rb.AddForce(-direction * kickBackForce);
         }
         
     }
 
     IEnumerator Charge() {
-        time = chargeTime;
+        time = 0f;
         lr.enabled = true;
         currentLookatPoint = playerController.transform.position;
         charging = true;
+        GameObject go = Instantiate(ChargeParticles, transform.position, ChargeParticles.transform.rotation);
+        currentParticle = go.GetComponent<ParticleSystem>();
         
         //Fire
         //lr.enabled = false;

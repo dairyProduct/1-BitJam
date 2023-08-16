@@ -747,7 +747,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -760,7 +760,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 7
+  m_Constraints: 4
 --- !u!120 &409989487
 LineRenderer:
   serializedVersion: 2
@@ -782,7 +782,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: be721d590b13bb242947a7256892100f, type: 3}
+  - {fileID: 2100000, guid: 70cb5b01c37508f4d8a6cddbe80077d7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -879,6 +879,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chargeTime: 3
   lookSpeed: 2
+  kickBackForce: 100
+  ChargeParticles: {fileID: 5024694507031186530, guid: 912ff4f490e71b1489d255cf9c141719, type: 3}
 --- !u!212 &409989489
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -919,7 +921,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -565939730, guid: 82038a217b816164691f42a5d5882693, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
