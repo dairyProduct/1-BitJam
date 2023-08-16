@@ -193,7 +193,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public IEnumerator PlayerDeath(){
-        
+        if(died) yield return null;
         died = true;
         rb.gravityScale = 0;
         rb.velocity = Vector2.zero;

@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class LostSoulsMovement : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    public float moveSpeed = 3f;
+    public float groundMoveSpeed = 5f;
 
     public GameObject deathParticles;
     Rigidbody2D rb;
     PlayerController player;
+
+    private bool isGrounded;
+    public LayerMask groundMask;
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +24,14 @@ public class LostSoulsMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rb.velocity = (player.transform.position - transform.position).normalized * moveSpeed;
+        isGrounded = Physics2D.OverlapCircle(transform.position, .25f, groundMask);
+
+        if(isGrounded) {
+            rb.velocity = (player.transform.position - transform.position).normalized * groundMoveSpeed;
+        } else {
+            rb.velocity = (player.transform.position - transform.position).normalized * moveSpeed;
+        }
+        
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
@@ -34,4 +45,5 @@ public class LostSoulsMovement : MonoBehaviour
             }
         }
     }
+
 }
