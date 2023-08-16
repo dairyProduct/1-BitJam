@@ -99,8 +99,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9e046b29838a774f9251c2b52abd621, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 3
+  groundMoveSpeed: 5
   deathParticles: {fileID: 311826233291843027, guid: ad54fffe5d1558f41b4f72f4f1246210, type: 3}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!50 &8347029688885849641
 Rigidbody2D:
   serializedVersion: 4
