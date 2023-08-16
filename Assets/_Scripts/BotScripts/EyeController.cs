@@ -10,9 +10,13 @@ public class EyeController : MonoBehaviour
     public float kickBackForce = 25f;
 
     [Header("Particles")]
+    public GameObject deathParticles;
     public GameObject ChargeParticles;
 
     [Header("Components")]
+    public BoxCollider2D killZone;
+    public LineRenderer laserLR;
+
     LineRenderer lr;
     Rigidbody2D rb;
     PlayerController playerController;
@@ -41,27 +45,38 @@ public class EyeController : MonoBehaviour
 
             direction = (currentLookatPoint - (Vector2)transform.position).normalized;
 
-            //Set Line Renderer
-            lr.SetPosition(0, transform.position);
-            lr.SetPosition(1, direction * 15f);
-
-            lr.material.SetFloat("Speed", time / chargeTime * -10f);
+            lr.material.SetFloat("_Speed", time / chargeTime * -10f);
 
             //ChargeParticleSpeed
             //currentParticle.emission.rateOverTimeMultiplier = (chargeTime - time) * 10f;
-            
-            transform.right = direction;
+
+            //Look Direction
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, lookSpeed * Time.deltaTime);
+
         } else if(charging && time >= chargeTime){
             charging = false;
             lr.enabled = false;
             if(currentParticle != null){
                 Destroy(currentParticle.gameObject);
             }
-
-            //Fire
-            rb.AddForce(-direction * kickBackForce);
+            StartCoroutine(FireLaser());
+            
         }
         
+    }
+
+    IEnumerator FireLaser() {
+        laserLR.enabled = true;
+        if(killZone.IsTouching(playerController.GetComponent<Collider2D>())) {
+            playerController.StartCoroutine(playerController.PlayerDeath());
+        }
+        yield return new WaitForSeconds(.1f);
+        laserLR.enabled = false;
+        rb.AddForce(-transform.right * kickBackForce, ForceMode2D.Impulse);
+        yield return new WaitForSeconds(1);
+        StartCoroutine(Charge());
     }
 
     IEnumerator Charge() {
@@ -75,5 +90,17 @@ public class EyeController : MonoBehaviour
         //Fire
         //lr.enabled = false;
         yield return null;
+    }
+
+        private void OnTriggerEnter2D(Collider2D other) {
+        if (other.tag == "Player") {
+            if(playerController.isDashing) {
+                if(currentParticle != null) {
+                    Destroy(currentParticle);
+                }
+                Instantiate(deathParticles, transform.position, Quaternion.identity);
+                Destroy(gameObject);
+            }
+        }
     }
 }
