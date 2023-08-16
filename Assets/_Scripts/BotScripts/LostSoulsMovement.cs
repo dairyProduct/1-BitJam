@@ -5,8 +5,11 @@ using UnityEngine;
 public class LostSoulsMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
+
+    public GameObject deathParticles;
     Rigidbody2D rb;
     PlayerController player;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +26,7 @@ public class LostSoulsMovement : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "Player") {
             if(player.isDashing) {
+                Instantiate(deathParticles, transform.position, Quaternion.identity);
                 Destroy(gameObject);
             } else {
                 player.StartCoroutine(player.PlayerDeath());
