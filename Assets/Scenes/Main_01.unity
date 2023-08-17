@@ -297,7 +297,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 11.25
+  orthographic size: 20.96875
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -543,6 +543,34 @@ PrefabInstance:
       propertyPath: spawnZone
       value: 
       objectReference: {fileID: 305156238}
+    - target: {fileID: 2211795154862640972, guid: 1dab64da74d6dd04f9f01c6d1ceed02b, type: 3}
+      propertyPath: maxEnemies
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2211795154862640972, guid: 1dab64da74d6dd04f9f01c6d1ceed02b, type: 3}
+      propertyPath: maxSingleEnemySpawnRate
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2211795154862640972, guid: 1dab64da74d6dd04f9f01c6d1ceed02b, type: 3}
+      propertyPath: minSingleEnemySpawnRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2211795154862640972, guid: 1dab64da74d6dd04f9f01c6d1ceed02b, type: 3}
+      propertyPath: enemiesScaledUp.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2211795154862640972, guid: 1dab64da74d6dd04f9f01c6d1ceed02b, type: 3}
+      propertyPath: enemiesScaledUp.Array.data[0].enimyPrefab
+      value: 
+      objectReference: {fileID: 1153892062983812426, guid: 33c0f23d0e148c04fa81e7b4cbad8a2c, type: 3}
+    - target: {fileID: 2211795154862640972, guid: 1dab64da74d6dd04f9f01c6d1ceed02b, type: 3}
+      propertyPath: enemiesScaledUp.Array.data[1].enimyPrefab
+      value: 
+      objectReference: {fileID: 4125188430456414545, guid: 6565d4b213da61a4fa5317e1637d2225, type: 3}
+    - target: {fileID: 2211795154862640972, guid: 1dab64da74d6dd04f9f01c6d1ceed02b, type: 3}
+      propertyPath: enemiesScaledUp.Array.data[0].canSpawnInWalls
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3737011357297389962, guid: 1dab64da74d6dd04f9f01c6d1ceed02b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

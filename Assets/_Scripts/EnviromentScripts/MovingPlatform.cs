@@ -12,7 +12,6 @@ public class MovingPlatform : MonoBehaviour
     
 
     PlayerController player;
-    bool playerInside;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,14 +31,12 @@ public class MovingPlatform : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.tag == "Player") {
-            playerInside = true;
             other.transform.parent = transform;
         }
     }
 
     private void OnTriggerExit2D(Collider2D other) {
         if(other.tag == "Player") {
-            playerInside = false;
             other.transform.parent = null;
         }
     }

@@ -13,8 +13,6 @@ public class PlayerDetection : MonoBehaviour
     [Header("Detection")]
     [Tooltip("is player in FOV for long enough to be detected?")]
     [SerializeField] public bool playerDetected = false;
-    [Tooltip("How long for bot to detect player in FOV?")]
-    [SerializeField] float detectionTime = 1.5f;
     [Tooltip("How long for bot to lose detection of playerafter leaving FOV?")]
     [SerializeField] float loseDetetcionTime = 2.5f;
     [SerializeField] Transform flashLightPivotPoint;

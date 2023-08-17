@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[System.Serializable]
+public class Enimies{
+    public GameObject enimyPrefab;
+    public bool canSpawnInWalls;
+}
+
 public class GameController : MonoBehaviour
 {
     [Header("Base")]
@@ -14,15 +21,22 @@ public class GameController : MonoBehaviour
     public Vector3 lastCheckPoint;
     public Transform playerSpawn;
 
-    [Header("EnemyPrefabs")]
-    public GameObject hand;
-    public GameObject eye;
-    public GameObject lostSoul;
+    [Header("EnemyConfig")]
+    [Tooltip("Max number of enimies allowed on screen at any given time")]
+    [SerializeField] int maxEnemies;
+    [Tooltip("Arrange the enimies in the order we want the player to be introduced to them(index 0 is first)")]
+    public Enimies[] enemiesScaledUp;
+    [Tooltip("this value + 5/difficultyLevel = less time between EnemyTypeSpawns over time")]
+    public float timeBetweenEnemyTypes = 5f;
+    public int maxSingleEnemySpawnRate, minSingleEnemySpawnRate;
 
     public BoxCollider2D spawnZone;
     public LayerMask groundMask;
+
+    private int difficultyLevel = 0;
     // Start is called before the first frame update
     private void Awake() {
+        difficultyLevel = GetComponent<DifficultyManager>().difficultyLevel;
         lastCheckPoint = playerSpawn.position;
         GameObject go = Instantiate(playerPrefab, playerSpawn.position, Quaternion.identity);
         go.GetComponent<PlayerController>().gameController = this;
@@ -30,7 +44,7 @@ public class GameController : MonoBehaviour
         //cam.GetComponent<CameraFollow>().target = go.transform;
     }
     private void Start() {
-        StartCoroutine(SpawnEnemies());
+
     }
 
     public void SetCheckPoint(Vector3 checkpoint) {
@@ -40,21 +54,57 @@ public class GameController : MonoBehaviour
     private void Update() {
         
     }
-
-    IEnumerator SpawnEnemies() {
-        for (int i = 0; i < 3; i++)
-        {
-            yield return new WaitForSeconds(Random.Range(.2f, 1f));
-            Instantiate(lostSoul, GetRandomPointInsideSpawnArea(), Quaternion.identity);
-        }
-        for (int i = 0; i < 3; i++)
-        {
-            yield return new WaitForSeconds(Random.Range(.2f, 1f));
-            Instantiate(eye, GetValidPos(), Quaternion.identity);
-        }
-        yield return new WaitForSeconds(7f);
-        StartCoroutine(SpawnEnemies());
+    public void NewDifficulty(){
+        StartCoroutine(ChoseEnemiesFromDifficulty());
     }
+    private IEnumerator ChoseEnemiesFromDifficulty() {
+        int totalRoundEnemyCount = difficultyLevel;
+        int remainingCount = totalRoundEnemyCount;
+
+        if(difficultyLevel >= maxEnemies){
+            totalRoundEnemyCount = maxEnemies;
+        }
+        for (int i = 0; i < enemiesScaledUp.Length; i++){
+            int enemyDifficultyLevel = i;
+            yield return new WaitForSeconds(timeBetweenEnemyTypes + (5f/difficultyLevel));
+            if(i == enemiesScaledUp.Length-1){
+                StartCoroutine(SpawnEnimiesOfType(enemiesScaledUp[i].enimyPrefab, enemyDifficultyLevel, totalRoundEnemyCount, enemiesScaledUp[i].canSpawnInWalls));
+                break;
+            }
+
+            int currentEnemyAmount = Random.Range(0, remainingCount);
+            remainingCount -= currentEnemyAmount;
+            
+            if(currentEnemyAmount != 0){
+                StartCoroutine(SpawnEnimiesOfType(enemiesScaledUp[i].enimyPrefab, enemyDifficultyLevel, currentEnemyAmount, enemiesScaledUp[i].canSpawnInWalls));
+            }
+        }
+    }
+
+    private IEnumerator SpawnEnimiesOfType(GameObject enemyType, int enemyDifficulty, int spawnAmount, bool canSpawnInWalls){
+        for(int i = 0; i < spawnAmount; i++)
+        {
+            yield return new WaitForSeconds(Random.Range(minSingleEnemySpawnRate, maxSingleEnemySpawnRate));
+            if(canSpawnInWalls){
+                Instantiate(enemyType, GetRandomPointInsideSpawnArea(), Quaternion.identity);
+            }
+            else{
+                Instantiate(enemyType, GetValidPos(), Quaternion.identity);
+            }
+            
+        }
+        int luck = Random.Range(0, 10);
+        if(luck == 0){
+            yield return new WaitForSeconds(Random.Range(minSingleEnemySpawnRate, maxSingleEnemySpawnRate));
+            if(canSpawnInWalls){
+                Instantiate(enemyType, GetRandomPointInsideSpawnArea(), Quaternion.identity);
+            }
+            else{
+                Instantiate(enemyType, GetValidPos(), Quaternion.identity);
+            }
+        }
+    }
+
 
     Vector3 GetValidPos() {
         while (true)
