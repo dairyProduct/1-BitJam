@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class LostSoulsMovement : MonoBehaviour
 {
+    [Header("Movement")]
     public float moveSpeed = 3f;
     public float groundMoveSpeed = 5f;
+
+    [Header("Sound")]
+    public AudioClip chase;
+    public AudioClip close;
+    public AudioClip death;
+
+    public AudioSource audioSourceLoop;
+    public AudioSource audioSourceOne;
 
     public GameObject deathParticles;
     Rigidbody2D rb;
@@ -19,6 +28,7 @@ public class LostSoulsMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         player = FindObjectOfType<PlayerController>();
+        audioSourceLoop.clip = chase;
     }
 
     // Update is called once per frame
@@ -31,6 +41,19 @@ public class LostSoulsMovement : MonoBehaviour
         } else {
             rb.velocity = (player.transform.position - transform.position).normalized * moveSpeed;
         }
+
+        Vector2 direction = (player.transform.position - transform.position).normalized;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 10f * Time.deltaTime);
+
+        if(angle > 90 || angle < -90) {
+            transform.localScale = new Vector3(1, -1, 1);
+        } else {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+
+
         
     }
 
@@ -38,9 +61,11 @@ public class LostSoulsMovement : MonoBehaviour
         if (other.tag == "Player") {
             if(player.isDashing) {
                 Instantiate(deathParticles, transform.position, Quaternion.identity);
+                audioSourceOne.PlayOneShot(death);
                 Destroy(gameObject);
             } else {
                 player.StartCoroutine(player.PlayerDeath());
+                audioSourceOne.PlayOneShot(death);
                 Destroy(gameObject);
             }
         }

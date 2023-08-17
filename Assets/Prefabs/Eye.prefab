@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2787285493812115316}
   - component: {fileID: 1146892163787266809}
   - component: {fileID: 5125027537527566549}
+  - component: {fileID: 3473098995165878728}
   m_Layer: 0
   m_Name: Eye
   m_TagString: Untagged
@@ -107,6 +108,7 @@ MonoBehaviour:
   deathParticles: {fileID: 311826233291843027, guid: ad54fffe5d1558f41b4f72f4f1246210, type: 3}
   ChargeParticles: {fileID: 5024694507031186530, guid: 912ff4f490e71b1489d255cf9c141719, type: 3}
   killZone: {fileID: 2772746159870031414}
+  bodyCollider: {fileID: 5125027537527566549}
   laserLR: {fileID: 5199772195771134258}
 --- !u!120 &2787285493812115316
 LineRenderer:
@@ -269,6 +271,41 @@ CircleCollider2D:
     serializedVersion: 2
     m_Bits: 4294967295
   m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
+--- !u!58 &3473098995165878728
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4125188430456414545}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

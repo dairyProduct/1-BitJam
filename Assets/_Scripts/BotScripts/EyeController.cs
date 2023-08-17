@@ -15,6 +15,7 @@ public class EyeController : MonoBehaviour
 
     [Header("Components")]
     public BoxCollider2D killZone;
+    public CircleCollider2D bodyCollider;
     public LineRenderer laserLR;
 
     LineRenderer lr;
@@ -22,6 +23,7 @@ public class EyeController : MonoBehaviour
     PlayerController playerController;
     bool charging;
     Vector2 currentLookatPoint;
+    
 
     ParticleSystem currentParticle;
     Vector2 direction;
@@ -64,6 +66,8 @@ public class EyeController : MonoBehaviour
             StartCoroutine(FireLaser());
             
         }
+
+        
         
     }
 
@@ -95,11 +99,14 @@ public class EyeController : MonoBehaviour
         private void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "Player") {
             if(playerController.isDashing) {
-                if(currentParticle != null) {
+                if(bodyCollider.IsTouching(other)) {
+                    if(currentParticle != null) {
                     Destroy(currentParticle);
+                    }
+                    Instantiate(deathParticles, transform.position, Quaternion.identity);
+                    Destroy(gameObject);
                 }
-                Instantiate(deathParticles, transform.position, Quaternion.identity);
-                Destroy(gameObject);
+                
             }
         }
     }

@@ -49,6 +49,13 @@ MonoBehaviour:
   cameraPrefab: {fileID: 8110241513627779429, guid: dfdba98894ee1a2439bb1b425a286d4c, type: 3}
   lastCheckPoint: {x: 0, y: 0, z: 0}
   playerSpawn: {fileID: 1911447965928902975}
+  hand: {fileID: 0}
+  eye: {fileID: 4125188430456414545, guid: 6565d4b213da61a4fa5317e1637d2225, type: 3}
+  lostSoul: {fileID: 1153892062983812426, guid: 33c0f23d0e148c04fa81e7b4cbad8a2c, type: 3}
+  spawnZone: {fileID: 0}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &6831875747021888377
 GameObject:
   m_ObjectHideFlags: 0

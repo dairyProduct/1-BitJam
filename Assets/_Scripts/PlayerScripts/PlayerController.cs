@@ -19,6 +19,14 @@ public class PlayerController : MonoBehaviour
     public float velPower = .95f;
     public float maxSpeed = 24f;
 
+    [Header("Sounds")]
+    public AudioClip dash;
+    public AudioClip enterWall;
+    public AudioClip exitWall;
+    public AudioClip death;
+
+    AudioSource audioSource;
+
     [Header("Jumping")]
     public float enterForce = 7f;
     public float exitForce = 15f;
@@ -70,6 +78,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
         //lightUpdate();
     }
 
@@ -120,11 +129,13 @@ public class PlayerController : MonoBehaviour
         //Adds force when Exiting or entering a Wall
         if(prevState == movementStates.falling && currentState == movementStates.inWall) {
             StartCoroutine(EnterWall());
+            audioSource.PlayOneShot(enterWall);
             canDash = true;
             Instantiate(EnterParticles, transform.position, Quaternion.identity);
         }
         if(prevState == movementStates.inWall && currentState == movementStates.falling) {
             StartCoroutine(ExitWall());
+            audioSource.PlayOneShot(exitWall);
         }
 
         //Clamp Max Speed
@@ -183,6 +194,7 @@ public class PlayerController : MonoBehaviour
         rb.gravityScale = 0;
         rb.velocity = Vector2.zero;
         rb.AddForce(input * dashForce, ForceMode2D.Impulse);
+        audioSource.PlayOneShot(dash);
         yield return new WaitForSeconds(dashTime);
         rb.velocity = input * wallSurfSpeed;
         if(!isGrounded) {
@@ -202,6 +214,7 @@ public class PlayerController : MonoBehaviour
         GetComponent<TrailRenderer>().enabled = false;
         deathParticles1.Play();
         deathParticles2.Play();
+        audioSource.PlayOneShot(death);
 
         yield return new WaitForSeconds(1f);
         

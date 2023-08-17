@@ -8,15 +8,19 @@ public class GameController : MonoBehaviour
     public GameObject playerPrefab;
     public GameObject cameraPrefab;
 
+    
+
     [Header("Checkpoints / Spawn")]
     public Vector3 lastCheckPoint;
     public Transform playerSpawn;
 
     [Header("EnemyPrefabs")]
     public GameObject hand;
+    public GameObject eye;
     public GameObject lostSoul;
 
     public BoxCollider2D spawnZone;
+    public LayerMask groundMask;
     // Start is called before the first frame update
     private void Awake() {
         lastCheckPoint = playerSpawn.position;
@@ -43,8 +47,23 @@ public class GameController : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(.2f, 1f));
             Instantiate(lostSoul, GetRandomPointInsideSpawnArea(), Quaternion.identity);
         }
+        for (int i = 0; i < 3; i++)
+        {
+            yield return new WaitForSeconds(Random.Range(.2f, 1f));
+            Instantiate(eye, GetValidPos(), Quaternion.identity);
+        }
         yield return new WaitForSeconds(7f);
         StartCoroutine(SpawnEnemies());
+    }
+
+    Vector3 GetValidPos() {
+        while (true)
+        {
+            Vector3 spawnPos = GetRandomPointInsideSpawnArea();
+            if(!Physics2D.OverlapCircle(spawnPos, 0.5f, groundMask)) {
+                return spawnPos;
+            }
+        }
     }
 
     public Vector3 GetRandomPointInsideSpawnArea() {
