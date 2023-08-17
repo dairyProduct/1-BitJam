@@ -114,6 +114,7 @@ public class EyeController : MonoBehaviour
                     }
                     Instantiate(deathParticles, transform.position, Quaternion.identity);
                     audioSource.PlayOneShot(death);
+                    playerController.DashReset();
                     Destroy(gameObject);
                 }
                 

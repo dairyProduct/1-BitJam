@@ -66,6 +66,7 @@ public class LostSoulsMovement : MonoBehaviour
             if(player.isDashing) {
                 Instantiate(deathParticles, transform.position, Quaternion.identity);
                 audioSourceOne.PlayOneShot(death);
+                player.DashReset();
                 Destroy(gameObject);
             } else {
                 player.StartCoroutine(player.PlayerDeath());
