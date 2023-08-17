@@ -35,7 +35,6 @@ public class LoadAndUnloadAdditive : MonoBehaviour
             LoadSegement();
         }
         
-        Debug.Log(gameObject.name + (transform.position.y - camera.position.y).ToString());
     }
 
     private void UnloadSegment(){

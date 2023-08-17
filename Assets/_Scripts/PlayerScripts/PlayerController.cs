@@ -40,7 +40,10 @@ public class PlayerController : MonoBehaviour
     [Header("Particles")]
     public ParticleSystem deathParticles1;
     public ParticleSystem deathParticles2;
+    public ParticleSystem playerSparkleParticles;
     public GameObject EnterParticles;
+    public GameObject dashParticles1, dashParticles2;
+    
     //public ParticleSystem deathParticles3;
 
     [Header("Light")]
@@ -124,6 +127,7 @@ public class PlayerController : MonoBehaviour
         //Dash Input
         if(Input.GetButtonDown("Jump") && !isGrounded && canDash) {
             StartCoroutine(Dash());
+            playerSparkleParticles.Stop();
         }
 
         //Adds force when Exiting or entering a Wall
@@ -131,6 +135,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(EnterWall());
             audioSource.PlayOneShot(enterWall);
             canDash = true;
+            playerSparkleParticles.Play();
             Instantiate(EnterParticles, transform.position, Quaternion.identity);
         }
         if(prevState == movementStates.inWall && currentState == movementStates.falling) {
@@ -188,6 +193,8 @@ public class PlayerController : MonoBehaviour
     }
 
     IEnumerator Dash() {
+        Instantiate(dashParticles1, transform.position, Quaternion.identity);
+        Instantiate(dashParticles2, transform.position, Quaternion.identity);
         isDashing = true;
         canDash = false;
         canMove = false;
@@ -200,8 +207,10 @@ public class PlayerController : MonoBehaviour
         if(!isGrounded) {
             rb.gravityScale = 1;
         }
-        isDashing = false;
+        
         canMove = true;
+        yield return new WaitForSeconds(0.33f); //invinsability frames
+        isDashing = false;
     }
 
     public IEnumerator PlayerDeath(){

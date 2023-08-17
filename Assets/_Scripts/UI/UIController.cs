@@ -10,13 +10,14 @@ public class UIController : MonoBehaviour
     public Slider lightBar;
     public TMP_Text lightPercent;
     public TMP_Text yLevel;
+    public Image gameOverPanel;
 
 
-    private Transform player;
+    private Transform cam;
     PlayerController playerController;
     void Start()
     {
-        player = GameObject.Find("Player(Clone)").transform;
+        cam = GameObject.Find("CameraHolder").transform;
         //playerController = FindObjectOfType<PlayerController>();
         //playerController.lightUpdate += UpdateLightBar;
     }
@@ -29,6 +30,14 @@ public class UIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        yLevel.text = ((int)player.transform.position.y).ToString();
+        yLevel.text = ((int)cam.transform.position.y).ToString();
+    }
+
+    private void DisplayEndGameUI(){
+        gameOverPanel.gameObject.SetActive(true);
+        gameOverPanel.GetComponent<Animator>().SetTrigger("GameOver");
+        
+
+
     }
 }

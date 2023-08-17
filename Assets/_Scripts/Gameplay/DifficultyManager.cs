@@ -34,11 +34,14 @@ public class DifficultyManager : MonoBehaviour
         if(inTutorial){
             yield return new WaitForSeconds(15);
             inTutorial = false;
+            Debug.Log("difficultyIncreased");
             RaiseDifficulty();
-            yield break;
         }
-        yield return new WaitForSeconds(20 + (difficultyLevel * timeBetweenDifficulties));
-        RaiseDifficulty();
+        else{
+            yield return new WaitForSeconds(7 + (difficultyLevel * timeBetweenDifficulties));
+            RaiseDifficulty();
+        }
         StartCoroutine(DifficultyDuration());
+        
     }
 }

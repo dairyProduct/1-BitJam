@@ -5,12 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MainMenu.unity
     guid: 5735a152cbe8ff143b65e0ead34df866
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/Scenes/Main_01.unity
+    guid: 935d1c9871f33084faf79b9a3dd2c35c
   - enabled: 1
     path: Assets/Scenes/MapSegments/Segment1.unity
     guid: 5cf5bfddc362c654ca65c38e40896fb1
@@ -20,6 +20,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MapSegments/Segment3.unity
     guid: eb893cc43b2a3334294348eb5df17ad7
+  - enabled: 1
+    path: Assets/Scenes/MapSegments/Segment4.unity
+    guid: 30113a53563b69b47b050579caa12448
+  - enabled: 1
+    path: Assets/Scenes/MapSegments/Segment5.unity
+    guid: 77a0639f2df3207449aa905c3a573c07
   - enabled: 1
     path: Assets/Scenes/DanTest.unity
     guid: 672740f00d3fdd94f8a3205bfc1cbcb6
