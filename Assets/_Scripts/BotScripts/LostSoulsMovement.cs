@@ -18,6 +18,7 @@ public class LostSoulsMovement : MonoBehaviour
 
     public GameObject deathParticles;
     Rigidbody2D rb;
+    SpriteRenderer spriteRenderer;
     PlayerController player;
 
     private bool isGrounded;
@@ -28,6 +29,7 @@ public class LostSoulsMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         player = FindObjectOfType<PlayerController>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         audioSourceLoop.clip = chase;
     }
 
@@ -38,8 +40,10 @@ public class LostSoulsMovement : MonoBehaviour
 
         if(isGrounded) {
             rb.velocity = (player.transform.position - transform.position).normalized * groundMoveSpeed;
+            spriteRenderer.material.SetInt("_Invert", 0);
         } else {
             rb.velocity = (player.transform.position - transform.position).normalized * moveSpeed;
+            spriteRenderer.material.SetInt("_Invert", 1);
         }
 
         Vector2 direction = (player.transform.position - transform.position).normalized;
@@ -62,6 +66,7 @@ public class LostSoulsMovement : MonoBehaviour
             if(player.isDashing) {
                 Instantiate(deathParticles, transform.position, Quaternion.identity);
                 audioSourceOne.PlayOneShot(death);
+                player.DashReset();
                 Destroy(gameObject);
             } else {
                 player.StartCoroutine(player.PlayerDeath());

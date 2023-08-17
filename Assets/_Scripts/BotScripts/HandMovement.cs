@@ -4,41 +4,36 @@ using UnityEngine;
 
 public class HandMovement : MonoBehaviour
 {
+    [Header("Movement")]
     [SerializeField] float moveSpeed = 2f;
     [SerializeField] float movementInterval = 3f;
     [SerializeField] float attackDistance = 5f;
+
+    [Header("Particles")]
+    public GameObject deathParticles;
+
+
     [SerializeField] GameObject flamePrefab;
 
-    private Transform player;
+    private PlayerController player;
     private Vector2 targetPosition;
     private Rigidbody2D rb;
     private float movementTimer;
+    bool checking;
 
     private void Start()
     {
         movementTimer = movementInterval + 2f;
-        player = GameObject.Find("Player(Clone)").transform;
+        player = FindObjectOfType<PlayerController>();
+        
         rb = GetComponent<Rigidbody2D>();
-        ChooseRandomTargetPosition();
+
+        StartCoroutine(InRange());
     }
 
     private void Update()
     {
-        movementTimer -= Time.deltaTime;
 
-        if (movementTimer <= 0)
-        {
-            ChooseRandomTargetPosition();
-            movementTimer = movementInterval;
-            Vector3 playerPos = player.position;
-
-            if(Vector2.Distance(transform.position, playerPos) <= attackDistance ){
-                HandAttack();
-            }
-                
-        }
-
-        MoveToTargetPosition();
     }
 
     private void ChooseRandomTargetPosition()
@@ -58,7 +53,28 @@ public class HandMovement : MonoBehaviour
 
     private void HandAttack(){
         //play attackAnimation
-        GameObject flame = Instantiate(flamePrefab, transform);
+        
     }
 
+    IEnumerator InRange() {
+        while(true) {
+            if(Vector2.Distance(transform.position, player.transform.position) <= attackDistance ) {
+                GameObject flame = Instantiate(flamePrefab, transform);
+                yield return new WaitForSeconds(1f);
+            }
+            ChooseRandomTargetPosition();
+            MoveToTargetPosition();
+            yield return new WaitForSeconds(Random.Range(0.2f, 2f));
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.tag == "Player") {
+            if(player.isDashing) {
+                Instantiate(deathParticles, transform.position, Quaternion.identity);
+                Destroy(gameObject);
+            }
+        }
+
+    }
 }

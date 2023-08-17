@@ -228,5 +228,9 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    public void DashReset() {
+        canDash = true;
+    }
+
 
 }

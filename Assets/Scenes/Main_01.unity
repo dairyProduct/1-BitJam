@@ -934,7 +934,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 8425fa508e0e0fe46b39df0363fed15d, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 96036d41b5de1cb4ab40ff9fbe003376, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -6544,6 +6544,63 @@ MonoBehaviour:
   lightBar: {fileID: 0}
   lightPercent: {fileID: 0}
   yLevel: {fileID: 983545176}
+--- !u!1001 &1138411916
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 685200389070599686, guid: e0e53f2dc2cf91c46a33bc02683fc1be, type: 3}
+      propertyPath: m_Name
+      value: FloatingBot
+      objectReference: {fileID: 0}
+    - target: {fileID: 936252247975829095, guid: e0e53f2dc2cf91c46a33bc02683fc1be, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.57
+      objectReference: {fileID: 0}
+    - target: {fileID: 936252247975829095, guid: e0e53f2dc2cf91c46a33bc02683fc1be, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 936252247975829095, guid: e0e53f2dc2cf91c46a33bc02683fc1be, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 936252247975829095, guid: e0e53f2dc2cf91c46a33bc02683fc1be, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 936252247975829095, guid: e0e53f2dc2cf91c46a33bc02683fc1be, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 936252247975829095, guid: e0e53f2dc2cf91c46a33bc02683fc1be, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 936252247975829095, guid: e0e53f2dc2cf91c46a33bc02683fc1be, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 936252247975829095, guid: e0e53f2dc2cf91c46a33bc02683fc1be, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 936252247975829095, guid: e0e53f2dc2cf91c46a33bc02683fc1be, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 936252247975829095, guid: e0e53f2dc2cf91c46a33bc02683fc1be, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e0e53f2dc2cf91c46a33bc02683fc1be, type: 3}
 --- !u!1 &1239615439
 GameObject:
   m_ObjectHideFlags: 0
@@ -7162,7 +7219,7 @@ GameObject:
   - component: {fileID: 1931750374}
   m_Layer: 3
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14645,7 +14702,7 @@ GameObject:
   - component: {fileID: 2071127244}
   m_Layer: 7
   m_Name: Impassable
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20081,3 +20138,4 @@ SceneRoots:
   - {fileID: 1414981291}
   - {fileID: 1714373138}
   - {fileID: 671306080}
+  - {fileID: 1138411916}

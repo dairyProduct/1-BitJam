@@ -34,6 +34,7 @@ public class BulletAimer : MonoBehaviour
             direction = (player.position - transform.position).normalized;
             GetComponent<Rigidbody2D>().velocity = direction * speed;
         }
+        transform.up = -direction;
     }
 
     void StopTracking()
