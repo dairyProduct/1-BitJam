@@ -13,6 +13,13 @@ public class EyeController : MonoBehaviour
     public GameObject deathParticles;
     public GameObject ChargeParticles;
 
+    [Header("Audio")]
+    public AudioClip charge;
+    public AudioClip shoot;
+    public AudioClip death;
+
+    AudioSource audioSource;
+
     [Header("Components")]
     public BoxCollider2D killZone;
     public CircleCollider2D bodyCollider;
@@ -34,6 +41,7 @@ public class EyeController : MonoBehaviour
         playerController = FindObjectOfType<PlayerController>();
         lr = GetComponent<LineRenderer>();
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
         StartCoroutine(Charge());
     }
 
@@ -73,6 +81,7 @@ public class EyeController : MonoBehaviour
 
     IEnumerator FireLaser() {
         laserLR.enabled = true;
+        audioSource.PlayOneShot(shoot);
         if(killZone.IsTouching(playerController.GetComponent<Collider2D>())) {
             playerController.StartCoroutine(playerController.PlayerDeath());
         }
@@ -90,7 +99,7 @@ public class EyeController : MonoBehaviour
         charging = true;
         GameObject go = Instantiate(ChargeParticles, transform.position, ChargeParticles.transform.rotation);
         currentParticle = go.GetComponent<ParticleSystem>();
-        
+        audioSource.PlayOneShot(charge);
         //Fire
         //lr.enabled = false;
         yield return null;
@@ -104,6 +113,7 @@ public class EyeController : MonoBehaviour
                     Destroy(currentParticle);
                     }
                     Instantiate(deathParticles, transform.position, Quaternion.identity);
+                    audioSource.PlayOneShot(death);
                     Destroy(gameObject);
                 }
                 
