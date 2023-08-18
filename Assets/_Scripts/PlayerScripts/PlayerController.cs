@@ -69,6 +69,7 @@ public class PlayerController : MonoBehaviour
     public GameController gameController;
     [HideInInspector]
     public Rigidbody2D rb;
+    Vector2 lastInput;
 
 
     public enum movementStates {
@@ -92,6 +93,10 @@ public class PlayerController : MonoBehaviour
         input.x = Input.GetAxisRaw("Horizontal");
         input.y = Input.GetAxisRaw("Vertical");
         input.Normalize();
+
+        if(input.magnitude != 0) {
+            lastInput = input;
+        }
 
         prevState = currentState;
 
@@ -151,6 +156,9 @@ public class PlayerController : MonoBehaviour
             float movement = Mathf.Pow(Mathf.Abs(speedDiff) * accelRate, velPower) * Mathf.Sign(speedDiff);
             rb.AddForce(movement * Vector2.right);
         }
+        float angle = Mathf.Atan2(lastInput.y, lastInput.x) * Mathf.Rad2Deg;
+        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.rotation = rotation;
     }
 
     private void OnTriggerEnter2D(Collider2D other) {

@@ -131,10 +131,6 @@ MonoBehaviour:
   EnterParticles: {fileID: 2912667817011179824, guid: 6e0c3664d28b83c449628aa155167e32, type: 3}
   dashParticles1: {fileID: 6509140776624702190, guid: 20bdde712b2dbb84aa1cd0875314f294, type: 3}
   dashParticles2: {fileID: 6509140776624702190, guid: 20bdde712b2dbb84aa1cd0875314f294, type: 3}
-  detectionSpeed: 1
-  lightExposure: 0
-  maxLightExposure: 100
-  inLight: 0
   isDashing: 0
   gameController: {fileID: 0}
   rb: {fileID: 0}
