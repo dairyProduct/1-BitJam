@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
     [Header("Base")]
     public GameObject playerPrefab;
     public CameraController_Scrolling cameraController;
+    public MusicController musicController;
 
     [Header("Checkpoints / Spawn")]
     public Vector3 lastCheckPoint;
@@ -38,6 +39,7 @@ public class GameController : MonoBehaviour
 
     private int difficultyLevel = 0;
     private Transform cameraHolder;
+
     // Start is called before the first frame update
     private void Awake() {
         lastCheckPoint = playerSpawn.position;
@@ -46,6 +48,7 @@ public class GameController : MonoBehaviour
         cameraHolder = GameObject.Find("CameraHolder").transform;
     }
     private void Start() {
+        musicController.AddTrack(difficultyLevel);
     }
 
     public void SetCheckPoint(Vector3 checkpoint) {
@@ -58,6 +61,7 @@ public class GameController : MonoBehaviour
     public void NewDifficulty(){
         StartCoroutine(ChoseEnemiesFromDifficulty());
         IncreaseSpeed();
+        musicController.AddTrack(difficultyLevel);
     }
 
     public void IncreaseSpeed() {

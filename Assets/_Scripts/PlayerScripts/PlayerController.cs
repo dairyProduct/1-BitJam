@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     public float enterForce = 7f;
     public float exitForce = 15f;
     public LayerMask groundMask;
-    bool isGrounded;
+    public bool isGrounded;
 
     [Header("Dash")]
     public float dashForce = 8f;
@@ -213,7 +213,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public IEnumerator PlayerDeath(){
-        if(died) yield break;
+        if(died || isDashing) yield break;
         gameController.GameOver();
         died = true;
         Debug.Log("Dead");

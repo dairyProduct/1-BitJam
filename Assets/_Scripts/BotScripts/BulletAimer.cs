@@ -7,7 +7,6 @@ public class BulletAimer : MonoBehaviour
     [SerializeField] float speed, trackingTime = 10f; 
     [SerializeField] ParticleSystem ps1, ps2;
 
-    private Transform player;
     private PlayerController playerController; 
     private bool isTracking = true; 
     private bool collided = false;
@@ -16,8 +15,7 @@ public class BulletAimer : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.Find("Player(Clone)").transform;
-        playerController = player.GetComponent<PlayerController>();
+        playerController = FindObjectOfType<PlayerController>();
         //GetComponent<AudioSource>().clip = sounds[Random.Range(0, sounds.Length-1)];
         //GetComponent<AudioSource>().Play(0);
         Invoke("StopTracking", trackingTime);
@@ -31,7 +29,7 @@ public class BulletAimer : MonoBehaviour
             GetComponent<Rigidbody2D>().velocity = direction * speed;
         }
         else{
-            direction = (player.position - transform.position).normalized;
+            direction = (playerController.transform.position - transform.position).normalized;
             GetComponent<Rigidbody2D>().velocity = direction * speed;
         }
         transform.up = -direction;
@@ -43,16 +41,19 @@ public class BulletAimer : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D col){
-        /*
-        if(col.gameObject.tag == "Player" || ){ //if we wanna make the bullet break on ground cliision. for now it's off idk 
-            playerController.lightExposure = playerController.maxLightExposure;
+        
+        if(col.gameObject.tag == "Player"){
             StartCoroutine(DestroyEnergyBall());
+            if(playerController.isGrounded) {
+                return;
+            }
+            playerController.StartCoroutine(playerController.PlayerDeath());
         }
         else if(col.gameObject.tag == "Ground"){
             StartCoroutine(DestroyEnergyBall());
         }
 
-        */
+        
     }
 
     private IEnumerator DestroyEnergyBall(){
