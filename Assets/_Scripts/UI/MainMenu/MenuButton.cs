@@ -5,17 +5,24 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
-public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
+public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
     public TMP_Text theText;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        theText.color = Color.black; //Or however you do your color
+        theText.color = Color.black;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        theText.color = Color.white; //Or however you do your color
+        theText.color = Color.white;
+    }
+
+    public void OnPointerDown(PointerEventData eventData) {
+        theText.color = Color.white;
+    }
+    public void OnPointerUp(PointerEventData eventData) {
+        theText.color = Color.black;
     }
 }
