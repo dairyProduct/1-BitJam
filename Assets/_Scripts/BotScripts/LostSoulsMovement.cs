@@ -20,6 +20,7 @@ public class LostSoulsMovement : MonoBehaviour
     Rigidbody2D rb;
     SpriteRenderer spriteRenderer;
     PlayerController player;
+    CameraShake shake;
 
     private bool isGrounded;
     public LayerMask groundMask;
@@ -30,6 +31,7 @@ public class LostSoulsMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         player = FindObjectOfType<PlayerController>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        shake = FindObjectOfType<CameraShake>();
         audioSourceLoop.clip = chase;
     }
 
@@ -67,6 +69,7 @@ public class LostSoulsMovement : MonoBehaviour
             if(player.isDashing) {
                 Instantiate(deathParticles, transform.position, Quaternion.identity);
                 audioSourceOne.PlayOneShot(death);
+                shake.StartCoroutine(shake.Shake(.1f, .5f));
                 player.DashReset();
                 Destroy(gameObject);
             } else {

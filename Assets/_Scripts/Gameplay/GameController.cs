@@ -13,10 +13,15 @@ public class GameController : MonoBehaviour
 {
     [Header("Base")]
     public GameObject playerPrefab;
+    public CameraController_Scrolling cameraController;
 
     [Header("Checkpoints / Spawn")]
     public Vector3 lastCheckPoint;
     public Transform playerSpawn;
+
+    [Header("Speed")]
+    public float speedIncreaseAmount = .25f;
+    public float maxSpeed = 4f;
 
     [Header("EnemyConfig")]
     [Tooltip("Max number of enimies allowed on screen at any given time")]
@@ -29,6 +34,7 @@ public class GameController : MonoBehaviour
     public BoxCollider2D spawnZone;
 
     public LayerMask groundMask;
+    public LayerMask impassableMask;
 
     private int difficultyLevel = 0;
     private Transform cameraHolder;
@@ -51,6 +57,11 @@ public class GameController : MonoBehaviour
     }
     public void NewDifficulty(){
         StartCoroutine(ChoseEnemiesFromDifficulty());
+        IncreaseSpeed();
+    }
+
+    public void IncreaseSpeed() {
+        cameraController.speed = Mathf.Clamp(cameraController.speed + speedIncreaseAmount, 2, maxSpeed);
     }
     private IEnumerator ChoseEnemiesFromDifficulty() {
         difficultyLevel = GetComponent<DifficultyManager>().difficultyLevel;
@@ -150,7 +161,9 @@ public class GameController : MonoBehaviour
         {
             Vector3 spawnPos = GetRandomPointInsideSpawnArea();
             if(!Physics2D.OverlapCircle(spawnPos, 0.5f, groundMask)) {
-                return spawnPos;
+                if(!Physics2D.OverlapCircle(spawnPos, 0.5f, impassableMask)) {
+                    return spawnPos;
+                }
             }
         }
     }
