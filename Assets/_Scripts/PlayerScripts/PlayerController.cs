@@ -214,7 +214,8 @@ public class PlayerController : MonoBehaviour
     }
 
     public IEnumerator PlayerDeath(){
-        if(died) yield return null;
+        if(died) yield break;
+        gameController.GameOver();
         died = true;
         rb.gravityScale = 0;
         rb.velocity = Vector2.zero;
@@ -226,10 +227,8 @@ public class PlayerController : MonoBehaviour
         audioSource.PlayOneShot(death);
 
         yield return new WaitForSeconds(1f);
-        
-        //transform.position = gameController.lastCheckPoint;
-        //lightExposure = 0;
-        //lightUpdate();
+        gameController.gameObject.GetComponent<UIController>().PlayFadeOut();
+        yield return new WaitForSeconds(4f);
         GetComponent<SpriteRenderer>().enabled = true;
         GetComponent<TrailRenderer>().enabled = true;
         SceneManager.LoadScene("Main_01");

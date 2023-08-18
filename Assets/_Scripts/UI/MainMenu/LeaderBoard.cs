@@ -8,17 +8,17 @@ using UnityEngine.Events;
 
 public class LeaderBoard : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI inputedName, playerCardName, playerCardPastTime, playerCardBestTime;
+    [SerializeField] private TextMeshProUGUI inputedName, playerCardName, playerCardBestScore;
 
 
     [SerializeField] private List<TextMeshProUGUI> names;
-    [SerializeField] private List<TextMeshProUGUI> times;
+    [SerializeField] private List<TextMeshProUGUI> scores;
     [SerializeField] private List<TextMeshProUGUI> Positions;
 
     //playerprefs
-    private string pastUserName = "PastUserName";
-    private string pastTimeKey = "PastTimeKey";
-    private string bestTimeKey = "BestTimeKey";
+    private const string userNameKey = "UserName";
+    private const string bestScoreKey = "BestScoreValue";
+    //private string bestTimeKey = "BestTimeKey";
 
 
     public UnityEvent<string, int> submitScoreEvent;
@@ -38,34 +38,20 @@ public class LeaderBoard : MonoBehaviour
     private void LoadPlayerLobbyCardData(){
         //if the player played before
         #region SetPlayerCardTimeTexts
-        if (PlayerPrefs.HasKey(pastTimeKey))
+        if (PlayerPrefs.HasKey(bestScoreKey))
         {
-            float bestTime = PlayerPrefs.GetFloat(bestTimeKey);
-            float pastTime = PlayerPrefs.GetFloat(pastTimeKey);
-
-            if(pastTime < bestTime || bestTime == 0){
-                bestTime = pastTime;
-                PlayerPrefs.SetFloat(bestTimeKey, PlayerPrefs.GetFloat(pastTimeKey));
-                PlayerPrefs.Save();
-                SubmitScore();
-            }
-            
-            //convert to a proper time 00:00:00
-            playerCardPastTime.text = ConvertToReadableTime(pastTime);
-
-            playerCardBestTime.text = ConvertToReadableTime(bestTime); 
+            playerCardBestScore.text = PlayerPrefs.GetInt(bestScoreKey).ToString(); 
         }
         else
         {
-            playerCardPastTime.text = "--:--:--"; 
-            playerCardBestTime.text = "--:--:--"; 
+            playerCardBestScore.text = "0"; 
         }
         #endregion
 
         #region SetPlayerCardNameText
-        if (PlayerPrefs.HasKey(pastTimeKey))
+        if (PlayerPrefs.HasKey(bestScoreKey))
         {
-            string pastName = PlayerPrefs.GetString(pastUserName);
+            string pastName = PlayerPrefs.GetString(userNameKey);
             playerCardName.text = pastName; 
         }
         else
@@ -80,14 +66,12 @@ public class LeaderBoard : MonoBehaviour
     public void GetLeaderBoard(){
         LeaderboardCreator.GetLeaderboard(LeaderboardKey, ((msg) => {
             int loopLength = (msg.Length < names.Count) ? msg.Length : names.Count;
-            int pos = 1;
-            for(int i = loopLength-1; i >= 0; --i){
+            for(int i = 0; i < loopLength; i++){
 
-                Positions[pos-1].text = pos.ToString();
-                names[pos-1].text = msg[i].Username;
-                times[pos-1].text = ConvertToReadableTime(msg[i].Score);
+                Positions[i].text = (i+1).ToString();
+                names[i].text = msg[i].Username;
+                scores[i].text = msg[i].Score.ToString();
 
-                pos += 1;
             }
         }));
     }
@@ -102,17 +86,12 @@ public class LeaderBoard : MonoBehaviour
     }
 
     public void SubmitScore(){
-        int time = (int)PlayerPrefs.GetFloat(bestTimeKey);
- 
-        submitScoreEvent.Invoke(PlayerPrefs.GetString(pastUserName), time);
+        if(!PlayerPrefs.HasKey(bestScoreKey)) return;
+        int score = PlayerPrefs.GetInt(bestScoreKey);
+        string playerName = PlayerPrefs.GetString(userNameKey);
+        submitScoreEvent.Invoke(playerName, score);
     }
     #endregion
 
-    private string ConvertToReadableTime(float inputTime){
-        int minutes = Mathf.FloorToInt(inputTime / 60);
-        int seconds = Mathf.FloorToInt(inputTime % 60);
-        string outputTime = string.Format("{0:00}:{1:00}", minutes, seconds);
-        return outputTime;
-    }
 
 }

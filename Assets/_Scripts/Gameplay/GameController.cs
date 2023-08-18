@@ -131,7 +131,7 @@ public class GameController : MonoBehaviour
             
         }
 
-        //1/10 chance an extra bot of the current type spawns cuse why not muahahhaa
+        // 1/10 chance an extra bot of the current type spawns cuse why not muahahhaa
         int luck = Random.Range(0, 10);
         if(luck == 0){
             yield return new WaitForSeconds(Random.Range(minSingleEnemySpawnRate, maxSingleEnemySpawnRate));
@@ -159,7 +159,8 @@ public class GameController : MonoBehaviour
         return new Vector3(Random.Range(spawnZone.bounds.min.x, spawnZone.bounds.max.x), Random.Range(spawnZone.bounds.min.y, spawnZone.bounds.max.y), 0f);
     }
 
-    private void GameOver(){
+    public void GameOver(){
+        GetComponent<UIController>().SaveScoreData();
         cameraHolder.GetComponent<CameraController_Scrolling>().enabled = false;
     }
 }

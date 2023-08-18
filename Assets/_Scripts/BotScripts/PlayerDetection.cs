@@ -4,6 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class PlayerDetection : MonoBehaviour
 {
+    /*
     [Header("FlashLight")]
     public Transform flashlightSource;
     public float detectionDistance = 20f;
@@ -136,5 +137,6 @@ public class PlayerDetection : MonoBehaviour
             rotateTimer = 0.01f;
         }
     }
+    */
 
 }

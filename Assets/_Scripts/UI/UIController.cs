@@ -3,41 +3,195 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
-    [Header("LightBar")]
-    public Slider lightBar;
-    public TMP_Text lightPercent;
-    public TMP_Text yLevel;
-    public Image gameOverPanel;
 
 
+    [SerializeField] Image gameOverPanel;
+    [SerializeField] Canvas pauseCanvas, settingsCanvas;
+    [SerializeField] TextMeshProUGUI musicPercent, soundPercent, bestScoreText, currentScoreText;
+    [SerializeField] Slider musicSlider, soundSlider;
+    [SerializeField] Animator fadeAnimator, pauseTextAnimator;
+    [SerializeField] AudioSource pauseGameAudioSource;
+    [SerializeField] AudioClip pauseGame, unpauseGame;
+
+
+    private const string musicVolumeKey = "MusicVolume";
+    private const string soundVolumeKey = "SoundVolume";
+    private const string bestScoreKey = "BestScoreValue";
+    private float defaultVolume = 50f;
+    private int defaultScore = 0;
     private Transform cam;
-    PlayerController playerController;
+    private bool gamePaused, inSettings;
+    void Awake(){
+        LoadPlayerInGameData();
+        PlayFadeIn();
+    }
     void Start()
     {
         cam = GameObject.Find("CameraHolder").transform;
-        //playerController = FindObjectOfType<PlayerController>();
-        //playerController.lightUpdate += UpdateLightBar;
-    }
-
-    public void UpdateLightBar() {
-        lightBar.value = playerController.lightExposure / playerController.maxLightExposure;
-        lightPercent.text = Mathf.RoundToInt((playerController.lightExposure / playerController.maxLightExposure) * 100) + "%";
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        yLevel.text = ((int)cam.transform.position.y).ToString();
+        if(Input.GetKeyDown(KeyCode.Escape)){
+            if(!gamePaused){
+                PauseGame();
+            }
+            else if(gamePaused && !inSettings){
+                UnpauseGame();
+            }
+            else if(gamePaused && inSettings){
+                
+                CloseSettings();
+            }
+        }
+        currentScoreText.text = ((int)cam.transform.position.y).ToString();
     }
 
-    private void DisplayEndGameUI(){
-        gameOverPanel.gameObject.SetActive(true);
-        gameOverPanel.GetComponent<Animator>().SetTrigger("GameOver");
+
+
+
+    
+    #region PauseGame
+    
+
+
+    #region MenuPlayerPrefs
+    private void LoadPlayerInGameData(){
+        if (PlayerPrefs.HasKey(musicVolumeKey))
+        {
+            float musicVolume = PlayerPrefs.GetFloat(musicVolumeKey);
+            musicSlider.value = musicVolume;
+        }
+        else
+        {
+            musicSlider.value = defaultVolume;
+        }
+
+        if (PlayerPrefs.HasKey(soundVolumeKey))
+        {
+            float soundVolume = PlayerPrefs.GetFloat(soundVolumeKey);
+            soundSlider.value = soundVolume;
+        }
+        else
+        {
+            soundSlider.value = defaultVolume;
+        }
+
+        if (PlayerPrefs.HasKey(bestScoreKey))
+        {
+            int bestScore = PlayerPrefs.GetInt(bestScoreKey);
+            bestScoreText.text = bestScore.ToString();
+        }
+        else
+        {
+            bestScoreText.text = defaultScore.ToString();
+        }
+        ChangePercentages();
+    }
+
+
+    private void ApplyVolume()
+    {
+        // Find all audio sources in the scene and set their volume
+        AudioSource[] audioSources = FindObjectsOfType<AudioSource>();
+        foreach (AudioSource audioSource in audioSources)
+        {
+            if(audioSource.loop == false){
+                audioSource.volume = soundSlider.value / 100;
+            }
+            else{
+                audioSource.volume = musicSlider.value / 100;
+            }
+        }
+    }
+
+    public void ChangePercentages(){
+        ApplyVolume();
+        musicPercent.text = (musicSlider.value).ToString() + "%";
+        soundPercent.text = (soundSlider.value).ToString() + "%";
+    }
+    
+
+    public void SaveSettingsData(){   
+        PlayerPrefs.SetFloat(musicVolumeKey, musicSlider.value);
+        PlayerPrefs.SetFloat(soundVolumeKey, soundSlider.value);
+        PlayerPrefs.Save(); 
+    }
+
+    public void SaveScoreData(){
+        //Update best score if it is first score or if it's better than the best score
+        if (!PlayerPrefs.HasKey(bestScoreKey)){
+            PlayerPrefs.SetInt(bestScoreKey, int.Parse(currentScoreText.text));
+        }
+        else if(int.Parse(bestScoreText.text) < int.Parse(currentScoreText.text)){
+            PlayerPrefs.SetInt(bestScoreKey, int.Parse(currentScoreText.text));
+        }
+        PlayerPrefs.Save();
+        
+    }
+    #endregion
+
+
+    public void OpenSettings(){
+        inSettings = true;
+        settingsCanvas.enabled = true;
+        pauseCanvas.enabled = false;
+    }
+
+    public void CloseSettings(){
+        inSettings = false;
+        
+        settingsCanvas.enabled = false;
+        pauseCanvas.enabled = true;
+        SaveSettingsData();
+        
+    }
+    
+    public void RestartGame(){
+        SceneManager.LoadScene(1);
+    }
+
+    public void LoadMainMenu(){
+        SceneManager.LoadScene(0);
+    }
+
+    public void PauseGame(){
+        gamePaused = true;
+        Time.timeScale = 0;
+        pauseCanvas.enabled = true;
+        //pauseTextAnimator.SetTrigger("Paused");
+        //pauseGameAudioSource.clip = unpauseGame;
+        //pauseGameAudioSource.Play();
+    }
+
+    public void UnpauseGame(){
+        gamePaused = false;
+        Time.timeScale = 1;
+        pauseCanvas.enabled = false;
+        //pauseGameAudioSource.clip = pauseGame;
+        //pauseGameAudioSource.Play();
+    }
+
+    private void PlayFadeIn(){
+        fadeAnimator.SetTrigger("GameStarted");
+        
+    }
+
+    public void PlayFadeOut(){
+        bestScoreText.transform.parent.GetComponent<Animator>().enabled = false;
+        currentScoreText.transform.parent.GetComponent<Animator>().enabled = false;
+        fadeAnimator.SetTrigger("GameEnded");
         
 
-
     }
+
+
+    #endregion
+    
 }

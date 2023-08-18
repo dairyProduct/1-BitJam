@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerDetection))]
 public class BotMovementController : MonoBehaviour
 {
+    /*
     [SerializeField] Vector3 positionA, positionB;
     [SerializeField] float botMoveSpeed, botJumpoForce, moveTimer = 3f;
 
@@ -71,4 +73,5 @@ public class BotMovementController : MonoBehaviour
     private void BotJump(float botJumpForce){
         botRigidbody.AddForce(Vector3.up * botJumpForce);
     }
+    */
 }
