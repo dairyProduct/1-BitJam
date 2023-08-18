@@ -214,6 +214,7 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator PlayerDeath(){
         if(died) yield break;
+        gameController.GameOver();
         died = true;
         Debug.Log("Dead");
         shake.StartCoroutine(shake.Shake(.1f, .5f));
@@ -228,8 +229,8 @@ public class PlayerController : MonoBehaviour
         audioSource.PlayOneShot(death);
 
         yield return new WaitForSeconds(1f);
-        
-        //transform.position = gameController.lastCheckPoint;
+        gameController.gameObject.GetComponent<UIController>().PlayFadeOut();
+        yield return new WaitForSeconds(4f);
         GetComponent<SpriteRenderer>().enabled = true;
         GetComponent<TrailRenderer>().enabled = true;
         SceneManager.LoadScene("Main_01"); //resets the level

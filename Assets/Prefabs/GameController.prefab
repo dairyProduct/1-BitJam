@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3737011357297389962}
   - component: {fileID: 2211795154862640972}
+  - component: {fileID: 7253216481431745039}
+  - component: {fileID: 4584834403300851047}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -46,16 +48,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 3020506587263389198, guid: 145fde72d1ee2ec41a4c05ab4c310401, type: 3}
-  cameraPrefab: {fileID: 8110241513627779429, guid: dfdba98894ee1a2439bb1b425a286d4c, type: 3}
   lastCheckPoint: {x: 0, y: 0, z: 0}
   playerSpawn: {fileID: 1911447965928902975}
-  hand: {fileID: 0}
-  eye: {fileID: 4125188430456414545, guid: 6565d4b213da61a4fa5317e1637d2225, type: 3}
-  lostSoul: {fileID: 1153892062983812426, guid: 33c0f23d0e148c04fa81e7b4cbad8a2c, type: 3}
+  maxEnemies: 10
+  enemiesScaledUp:
+  - enimyPrefab: {fileID: 1153892062983812426, guid: 33c0f23d0e148c04fa81e7b4cbad8a2c, type: 3}
+    canSpawnInWalls: 1
+  - enimyPrefab: {fileID: 4125188430456414545, guid: 6565d4b213da61a4fa5317e1637d2225, type: 3}
+    canSpawnInWalls: 0
+  - enimyPrefab: {fileID: 685200389070599686, guid: e0e53f2dc2cf91c46a33bc02683fc1be, type: 3}
+    canSpawnInWalls: 0
+  timeBetweenEnemyTypes: 5
+  maxSingleEnemySpawnRate: 2
+  minSingleEnemySpawnRate: 1
   spawnZone: {fileID: 0}
   groundMask:
     serializedVersion: 2
     m_Bits: 8
+--- !u!114 &7253216481431745039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4638411745636544770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7c631cd5fc61e4da13da8b5011fcf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightBar: {fileID: 0}
+  lightPercent: {fileID: 0}
+  yLevel: {fileID: 0}
+  gameOverPanel: {fileID: 0}
+--- !u!114 &4584834403300851047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4638411745636544770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b8fbc112efa6fd43bc7f14b3097f812, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeBetweenDifficulties: 3
+  difficultyLevel: 0
 --- !u!1 &6831875747021888377
 GameObject:
   m_ObjectHideFlags: 0
@@ -81,7 +120,7 @@ Transform:
   m_GameObject: {fileID: 6831875747021888377}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 4.22, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

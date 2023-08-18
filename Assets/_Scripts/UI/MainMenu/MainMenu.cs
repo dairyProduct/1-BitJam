@@ -10,14 +10,15 @@ using UnityEngine.Events;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] Canvas mainMenuCanvas, leaderBoardCanvas, SettingsCanvas, fadeCanvas;
-    [SerializeField] TextMeshProUGUI userNameField, nameSizeIssueText, musicPercent, soundPercent;
+    [SerializeField] GameObject createUserNamePanel;
+    [SerializeField] TextMeshProUGUI userNameField, nameSizeIssueText, musicPercent, soundPercent, userNameTextDisplay;
     [SerializeField] Slider musicSlider, soundSlider;
     [SerializeField] Animator fadeAnimator, pauseTextAnimator;
     [SerializeField] GameObject musicPlayer;
     [SerializeField] AudioSource menuAudioSource;
     [SerializeField] AudioClip[] menuAudio;
 
-    private string pastUserName = "PastUserName";
+    private const string userNameKey = "UserName";
     private const string musicVolumeKey = "MusicVolume";
     private const string soundVolumeKey = "SoundVolume";
     private float defaultVolume = 50f;
@@ -29,9 +30,19 @@ public class MainMenu : MonoBehaviour
         //StartCoroutine(PlayFadeIn());
         LoadPlayerMainManuData();
 
+
     }
     #region MenuPlayerPrefs
     private void LoadPlayerMainManuData(){
+        if (PlayerPrefs.HasKey(userNameKey))
+        {
+            string userName = PlayerPrefs.GetString(userNameKey);
+            userNameTextDisplay.text = userName;
+        }
+        else
+        {
+            createUserNamePanel.SetActive(true);
+        }
         if (PlayerPrefs.HasKey(musicVolumeKey))
         {
             float musicVolume = PlayerPrefs.GetFloat(musicVolumeKey);
@@ -54,7 +65,14 @@ public class MainMenu : MonoBehaviour
         ChangePercentages();
     }
 
+    public void AcceptUserName(){
+        PlayerPrefs.SetString(userNameKey, userNameField.text);
 
+        PlayerPrefs.Save();
+        userNameTextDisplay.text = PlayerPrefs.GetString(userNameKey);
+        createUserNamePanel.SetActive(false);
+
+    }
     private void ApplyVolume()
     {
         // Find all audio sources in the scene and set their volume
@@ -98,10 +116,6 @@ public class MainMenu : MonoBehaviour
             return;
         }
         SavePlayerData();
-        PlayerPrefs.SetString(pastUserName, userNameField.text);
-        PlayerPrefs.Save();
-        //StartCoroutine(AudioFadeOut.FadeOut(musicPlayer.GetComponent<AudioSource>(), 2));
-        //StartCoroutine(PlayFadeOut());
         SceneManager.LoadScene(1);
     }
 
@@ -177,14 +191,14 @@ public class MainMenu : MonoBehaviour
 
     private IEnumerator PlayFadeIn(){
         fadeCanvas.enabled = true;
-        fadeAnimator.SetTrigger("FadeIn");
+        //fadeAnimator.SetTrigger("FadeIn");
         
         yield return new WaitForSeconds(7);
         fadeCanvas.enabled = false;
     }
     private IEnumerator PlayFadeOut(){
         fadeCanvas.enabled = true;
-        fadeAnimator.SetTrigger("FadeOut");
+        //fadeAnimator.SetTrigger("FadeOut");
         yield return new WaitForSeconds(2.1f);
         SceneManager.LoadScene(1);
     }
