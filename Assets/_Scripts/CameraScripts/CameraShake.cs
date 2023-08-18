@@ -16,7 +16,7 @@ public class CameraShake : MonoBehaviour
         {
             //float x = Random.Range(-1, 1) * magnitude;
             //float y = Random.Range(-1, 1) * magnitude;
-            Vector2 coord = new Vector2(Random.Range(-5, 5), Random.Range(-5, 5));
+            Vector2 coord = new Vector2(Random.Range(-1, 1), Random.Range(-1, 1));
             float x = Mathf.PerlinNoise(coord.x,coord.y) * magnitude;
             float y = Mathf.PerlinNoise(coord.x,coord.y) * magnitude;
 

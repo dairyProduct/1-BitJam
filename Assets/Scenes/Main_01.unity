@@ -167,8 +167,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3918ad9db58e73040b8b415d1df549b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadDistance: 30
-  unloadDistance: -20
+  loadDistance: 20
+  unloadDistance: -30
   sceneName:
   - Segment1
   - Segment2
@@ -281,7 +281,7 @@ Transform:
   m_GameObject: {fileID: 167949859}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: 0, z: -10}
+  m_LocalPosition: {x: -3.53, y: -0.1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -470,8 +470,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3918ad9db58e73040b8b415d1df549b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadDistance: 30
-  unloadDistance: -20
+  loadDistance: 20
+  unloadDistance: -30
   sceneName:
   - Segment1
   - Segment2
@@ -6864,7 +6864,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Jump to Dash '
+  m_text: 'Dash '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7153,8 +7153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3918ad9db58e73040b8b415d1df549b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadDistance: 30
-  unloadDistance: -20
+  loadDistance: 20
+  unloadDistance: -30
   sceneName:
   - Segment1
   - Segment2
@@ -22230,8 +22230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 3020506587263389198, guid: 145fde72d1ee2ec41a4c05ab4c310401, type: 3}
-  cameraController: {fileID: 297705703}
-  musicController: {fileID: 1854096753}
+  cameraController: {fileID: 0}
   lastCheckPoint: {x: 0, y: 0, z: 0}
   playerSpawn: {fileID: 1911447965596779890}
   speedIncreaseAmount: 0.25
@@ -22253,7 +22252,7 @@ MonoBehaviour:
     m_Bits: 8
   impassableMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
 --- !u!222 &2320773940952879235
 CanvasRenderer:
   m_ObjectHideFlags: 0
