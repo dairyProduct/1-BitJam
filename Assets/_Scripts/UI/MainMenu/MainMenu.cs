@@ -27,7 +27,7 @@ public class MainMenu : MonoBehaviour
 
 
     private void Start(){
-        StartCoroutine(PlayFadeIn());
+        //StartCoroutine(PlayFadeIn());
         LoadPlayerMainManuData();
 
 

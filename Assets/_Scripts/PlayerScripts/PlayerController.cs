@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -46,13 +47,8 @@ public class PlayerController : MonoBehaviour
     
     //public ParticleSystem deathParticles3;
 
-    [Header("Light")]
-    public float detectionSpeed = 1f;
-    public float lightExposure;
-    public float maxLightExposure = 100f;
-    public bool inLight;
-    public callback lightUpdate;
-
+    [Header("References")]
+    private CameraShake shake;
 
     [Header("Private")]
     private movementStates currentState;
@@ -67,11 +63,13 @@ public class PlayerController : MonoBehaviour
     private bool canDash = true;
     public bool isDashing;
     public delegate void callback();
+    private Coroutine dashRoutine;
 
     [HideInInspector]
     public GameController gameController;
     [HideInInspector]
     public Rigidbody2D rb;
+
 
     public enum movementStates {
         inWall,
@@ -82,6 +80,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
+        shake = FindObjectOfType<CameraShake>();
         //lightUpdate();
     }
 
@@ -95,22 +94,6 @@ public class PlayerController : MonoBehaviour
         input.Normalize();
 
         prevState = currentState;
-
-        //Light exposure
-        if(inLight) {
-            lightExposure += detectionSpeed;
-            lightExposure = Mathf.Clamp(lightExposure, 0f, maxLightExposure);
-            lightUpdate();
-        } else if(!inLight && isGrounded){
-            lightExposure -= detectionSpeed;
-            lightExposure = Mathf.Clamp(lightExposure, 0f, maxLightExposure);
-            //lightUpdate();
-        }
-        if(lightExposure >= maxLightExposure) {
-            died = true;
-            StartCoroutine(PlayerDeath());
-        }
-
 
         //Grounded or ungrounded states
         if(isGrounded) {
@@ -126,7 +109,10 @@ public class PlayerController : MonoBehaviour
 
         //Dash Input
         if(Input.GetButtonDown("Jump") && !isGrounded && canDash) {
-            StartCoroutine(Dash());
+            if(dashRoutine != null) {
+                StopCoroutine(dashRoutine);
+            }
+            dashRoutine = StartCoroutine(Dash());
             playerSparkleParticles.Stop();
         }
 
@@ -176,12 +162,16 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator EnterWall() { //Enter Wall Force
         canMove = false;
-        if(input.magnitude != 0) {
+        rb.AddForce(lastAirVelocity.normalized * enterForce, ForceMode2D.Impulse);
+        //rb.AddForce(input * enterForce, ForceMode2D.Impulse);
+        /*if(input.magnitude != 0) {
             rb.AddForce(input * enterForce, ForceMode2D.Impulse);
         } else {
             rb.AddForce(lastAirVelocity.normalized * enterForce, ForceMode2D.Impulse);
         }
+        */
         yield return new WaitForSeconds(.1f);
+        //rb.velocity = Vector2.zero; Remove Commenet to make lose momentum on enter wall
         canMove = true;
     }
 
@@ -195,6 +185,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator Dash() {
         Instantiate(dashParticles1, transform.position, Quaternion.identity);
         Instantiate(dashParticles2, transform.position, Quaternion.identity);
+        shake.StartCoroutine(shake.Shake(.1f, .25f));
         isDashing = true;
         canDash = false;
         canMove = false;
@@ -217,6 +208,9 @@ public class PlayerController : MonoBehaviour
         if(died) yield break;
         gameController.GameOver();
         died = true;
+        Debug.Log("Dead");
+        shake.StartCoroutine(shake.Shake(.1f, .5f));
+        
         rb.gravityScale = 0;
         rb.velocity = Vector2.zero;
 
@@ -231,7 +225,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(4f);
         GetComponent<SpriteRenderer>().enabled = true;
         GetComponent<TrailRenderer>().enabled = true;
-        SceneManager.LoadScene("Main_01");
+        SceneManager.LoadScene("Main_01"); //resets the level
         died = false;
         
     }

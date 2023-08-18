@@ -39,6 +39,7 @@ public class EyeController : MonoBehaviour
     bool hitWall;
     RaycastHit2D hit2D;
     RaycastHit2D playerHit;
+    private CameraShake shake;
 
     float time;
     void Start()
@@ -47,6 +48,7 @@ public class EyeController : MonoBehaviour
         lr = GetComponent<LineRenderer>();
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
+        shake = FindObjectOfType<CameraShake>();
         StartCoroutine(Charge());
     }
 
@@ -112,6 +114,7 @@ public class EyeController : MonoBehaviour
 
     IEnumerator FireLaser() {
         laserLR.enabled = true;
+        shake.StartCoroutine(shake.Shake(.1f, .8f));
         audioSource.PlayOneShot(shoot);
         if(killZone.IsTouching(playerController.GetComponent<Collider2D>()) && !hitWall) {
             if(!playerController.isDashing) {

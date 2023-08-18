@@ -36,6 +36,7 @@ public class LostSoulsMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(player == null) return;
         isGrounded = Physics2D.OverlapCircle(transform.position, .25f, groundMask);
 
         if(isGrounded) {

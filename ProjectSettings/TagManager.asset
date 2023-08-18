@@ -8,6 +8,7 @@ TagManager:
   - Death
   - Ground
   - NextSegmentPosition
+  - Enemy
   layers:
   - Default
   - TransparentFX
