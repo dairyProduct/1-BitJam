@@ -23,8 +23,10 @@ public class UIController : MonoBehaviour
     }
 
     public void UpdateLightBar() {
+        /*
         lightBar.value = playerController.lightExposure / playerController.maxLightExposure;
         lightPercent.text = Mathf.RoundToInt((playerController.lightExposure / playerController.maxLightExposure) * 100) + "%";
+        */
     }
 
     // Update is called once per frame

@@ -43,13 +43,16 @@ public class BulletAimer : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D col){
-        if(col.gameObject.tag == "Player" /*|| */){ //if we wanna make the bullet break on ground cliision. for now it's off idk 
+        /*
+        if(col.gameObject.tag == "Player" || ){ //if we wanna make the bullet break on ground cliision. for now it's off idk 
             playerController.lightExposure = playerController.maxLightExposure;
             StartCoroutine(DestroyEnergyBall());
         }
         else if(col.gameObject.tag == "Ground"){
             StartCoroutine(DestroyEnergyBall());
         }
+
+        */
     }
 
     private IEnumerator DestroyEnergyBall(){

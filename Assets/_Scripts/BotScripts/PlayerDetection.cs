@@ -37,6 +37,7 @@ public class PlayerDetection : MonoBehaviour
 
     void Update()
     {
+        /*
         if(!BotHasLight) return; // maybenot just return, maybe do something intresting while the bot can't see
 
         if (PlayerInVision())
@@ -61,6 +62,7 @@ public class PlayerDetection : MonoBehaviour
         {
             lostPlayer();
         }
+        */
     }
 
 
