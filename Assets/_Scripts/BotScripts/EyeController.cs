@@ -13,6 +13,8 @@ public class EyeController : MonoBehaviour
     public GameObject deathParticles;
     public GameObject ChargeParticles;
 
+    public LayerMask impassableMask;
+
     [Header("Audio")]
     public AudioClip charge;
     public AudioClip shoot;
@@ -34,6 +36,9 @@ public class EyeController : MonoBehaviour
 
     ParticleSystem currentParticle;
     Vector2 direction;
+    bool hitWall;
+    RaycastHit2D hit2D;
+    RaycastHit2D playerHit;
 
     float time;
     void Start()
@@ -49,21 +54,47 @@ public class EyeController : MonoBehaviour
     void Update()
     {
         if(charging && time < chargeTime) {
+            
             time += Time.deltaTime;
 
             currentLookatPoint = Vector2.Lerp(currentLookatPoint, playerController.transform.position, Time.deltaTime * lookSpeed);
 
-            direction = (currentLookatPoint - (Vector2)transform.position).normalized;
-
-            lr.material.SetFloat("_Speed", time / chargeTime * -10f);
-
-            //ChargeParticleSpeed
-            //currentParticle.emission.rateOverTimeMultiplier = (chargeTime - time) * 10f;
+            direction = playerController.transform.position - transform.position;
 
             //Look Direction
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, lookSpeed * Time.deltaTime);
+
+            hit2D = Physics2D.Raycast(transform.position, transform.right, Mathf.Abs((playerController.transform.position - transform.position).magnitude), impassableMask);
+
+            //Check if Ray hit wall or not
+            Vector2 endPoint;
+            if(hit2D.collider != null) {
+                hitWall = true;
+                endPoint = hit2D.point;
+            } else {
+                hitWall = false;
+                endPoint = transform.right * 50f;
+            }
+
+            #region Line Renderers
+
+            //Sight
+            lr.SetPosition(1, new Vector3(Mathf.Abs(((Vector3)endPoint - transform.position).magnitude), 0, 0));
+
+            //Beam
+            laserLR.SetPosition(1, new Vector3(Mathf.Abs(((Vector3)endPoint - transform.position).magnitude), 0, 0));
+
+            //Sight animation Speed
+            lr.material.SetFloat("_Speed", time / chargeTime * -10f);
+
+            #endregion
+
+            //ChargeParticleSpeed
+            //currentParticle.emission.rateOverTimeMultiplier = (chargeTime - time) * 10f;
+
+            
 
         } else if(charging && time >= chargeTime){
             charging = false;
@@ -82,8 +113,10 @@ public class EyeController : MonoBehaviour
     IEnumerator FireLaser() {
         laserLR.enabled = true;
         audioSource.PlayOneShot(shoot);
-        if(killZone.IsTouching(playerController.GetComponent<Collider2D>())) {
-            playerController.StartCoroutine(playerController.PlayerDeath());
+        if(killZone.IsTouching(playerController.GetComponent<Collider2D>()) && !hitWall) {
+            if(!playerController.isDashing) {
+                playerController.StartCoroutine(playerController.PlayerDeath());
+            }
         }
         yield return new WaitForSeconds(.1f);
         laserLR.enabled = false;
@@ -100,8 +133,6 @@ public class EyeController : MonoBehaviour
         GameObject go = Instantiate(ChargeParticles, transform.position, ChargeParticles.transform.rotation);
         currentParticle = go.GetComponent<ParticleSystem>();
         audioSource.PlayOneShot(charge);
-        //Fire
-        //lr.enabled = false;
         yield return null;
     }
 

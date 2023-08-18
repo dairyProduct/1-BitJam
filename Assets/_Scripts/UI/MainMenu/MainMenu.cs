@@ -100,8 +100,9 @@ public class MainMenu : MonoBehaviour
         SavePlayerData();
         PlayerPrefs.SetString(pastUserName, userNameField.text);
         PlayerPrefs.Save();
-        StartCoroutine(AudioFadeOut.FadeOut(musicPlayer.GetComponent<AudioSource>(), 2));
-        StartCoroutine(PlayFadeOut());
+        //StartCoroutine(AudioFadeOut.FadeOut(musicPlayer.GetComponent<AudioSource>(), 2));
+        //StartCoroutine(PlayFadeOut());
+        SceneManager.LoadScene(1);
     }
 
     public void OpenLeaderBoard(){

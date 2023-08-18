@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 5735a152cbe8ff143b65e0ead34df866
   - enabled: 1
@@ -26,7 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MapSegments/Segment5.unity
     guid: 77a0639f2df3207449aa905c3a573c07
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/DanTest.unity
     guid: 672740f00d3fdd94f8a3205bfc1cbcb6
   m_configObjects: {}
