@@ -137,8 +137,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3975f5bfd3bc18c4fb7ddb994c12c53a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
-  trackingTime: 1.5
+  speed: 4
+  trackingTime: 1
   ps1: {fileID: 6101822770467675237}
   ps2: {fileID: 6597656039671201674}
 --- !u!50 &87165734156643671
