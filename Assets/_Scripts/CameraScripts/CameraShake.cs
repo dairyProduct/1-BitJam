@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class CameraShake : MonoBehaviour
 {
+    private Vector3 originalPos;
+    private void Start() {
+        originalPos = transform.localPosition;
+    }
+
     public IEnumerator Shake(float duration, float magnitude) {
-        Vector3 originalPos = transform.localPosition;
         float elapsed = 0.0f;
 
         while (elapsed < duration)
@@ -16,7 +20,7 @@ public class CameraShake : MonoBehaviour
             float x = Mathf.PerlinNoise(coord.x,coord.y) * magnitude;
             float y = Mathf.PerlinNoise(coord.x,coord.y) * magnitude;
 
-            transform.localPosition = new Vector3(x, y, originalPos.z);
+            transform.localPosition = new Vector3(originalPos.x + x, originalPos.y + y, originalPos.z);
 
             elapsed += Time.deltaTime;
 

@@ -19,6 +19,7 @@ public class HandMovement : MonoBehaviour
     private Vector2 targetPosition;
     private Rigidbody2D rb;
     private float movementTimer;
+    CameraShake shake;
     bool checking;
 
     private void Start()
@@ -27,6 +28,7 @@ public class HandMovement : MonoBehaviour
         player = FindObjectOfType<PlayerController>();
         
         rb = GetComponent<Rigidbody2D>();
+        shake = FindObjectOfType<CameraShake>();
 
         StartCoroutine(InRange());
     }
@@ -73,6 +75,7 @@ public class HandMovement : MonoBehaviour
             if(player.isDashing) {
                 Instantiate(deathParticles, transform.position, Quaternion.identity);
                 player.DashReset();
+                shake.StartCoroutine(shake.Shake(.1f, .5f));
                 Destroy(gameObject);
             }
         }
