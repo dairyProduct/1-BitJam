@@ -63,7 +63,7 @@ public class PlayerDetection : MonoBehaviour
         {
             lostPlayer();
         }
-        */
+        
     }
 
 
