@@ -30,6 +30,7 @@ public class EyeController : MonoBehaviour
     LineRenderer lr;
     Rigidbody2D rb;
     PlayerController playerController;
+    private Animator animator;
     bool charging;
     Vector2 currentLookatPoint;
     
@@ -41,6 +42,8 @@ public class EyeController : MonoBehaviour
     RaycastHit2D playerHit;
     private CameraShake shake;
 
+    bool animationfire;
+
     float time;
     void Start()
     {
@@ -48,6 +51,7 @@ public class EyeController : MonoBehaviour
         lr = GetComponent<LineRenderer>();
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
+        animator = GetComponent<Animator>();
         shake = FindObjectOfType<CameraShake>();
         StartCoroutine(Charge());
     }
@@ -58,6 +62,11 @@ public class EyeController : MonoBehaviour
         if(charging && time < chargeTime) {
             
             time += Time.deltaTime;
+
+            if(time/chargeTime >= .75f && !animationfire) {
+                animationfire = true;
+                animator.SetTrigger("Fire");
+            }
 
             currentLookatPoint = Vector2.Lerp(currentLookatPoint, playerController.transform.position, Time.deltaTime * lookSpeed);
 
@@ -101,6 +110,7 @@ public class EyeController : MonoBehaviour
         } else if(charging && time >= chargeTime){
             charging = false;
             lr.enabled = false;
+            animationfire = false;
             if(currentParticle != null){
                 Destroy(currentParticle.gameObject);
             }

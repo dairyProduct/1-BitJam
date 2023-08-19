@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5125027537527566549}
   - component: {fileID: 3473098995165878728}
   - component: {fileID: 8635954372883468846}
+  - component: {fileID: 2574423561926529441}
   m_Layer: 0
   m_Name: Eye
   m_TagString: Enemy
@@ -327,7 +328,7 @@ AudioSource:
   m_GameObject: {fileID: 4125188430456414545}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -8384975319186035451, guid: 61959a8ab92cd294398b8f9a05f4c680, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -414,6 +415,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &2574423561926529441
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4125188430456414545}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 13cdd6ddd03bffc49b188f22b3c91dca, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8340138385176738858
 GameObject:
   m_ObjectHideFlags: 0

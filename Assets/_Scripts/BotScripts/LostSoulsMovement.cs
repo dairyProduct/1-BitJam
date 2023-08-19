@@ -16,6 +16,8 @@ public class LostSoulsMovement : MonoBehaviour
     public AudioSource audioSourceLoop;
     public AudioSource audioSourceOne;
 
+    private Animator animator;
+
     public GameObject deathParticles;
     Rigidbody2D rb;
     SpriteRenderer spriteRenderer;
@@ -31,6 +33,7 @@ public class LostSoulsMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         player = FindObjectOfType<PlayerController>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
         shake = FindObjectOfType<CameraShake>();
         audioSourceLoop.clip = chase;
     }
@@ -40,10 +43,12 @@ public class LostSoulsMovement : MonoBehaviour
     {
         if(player == null) return;
         isGrounded = Physics2D.OverlapCircle(transform.position, .25f, groundMask);
+        animator.SetBool("Mad", isGrounded);
 
         if(isGrounded) {
             rb.velocity = (player.transform.position - transform.position).normalized * groundMoveSpeed;
             spriteRenderer.material.SetInt("_Invert", 0);
+            
         } else {
             rb.velocity = (player.transform.position - transform.position).normalized * moveSpeed;
             spriteRenderer.material.SetInt("_Invert", 1);

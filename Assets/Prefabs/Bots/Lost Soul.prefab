@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6357219547538627377}
   - component: {fileID: 4239546641009510254}
   - component: {fileID: 3257249379893768824}
+  - component: {fileID: 8400593294367922526}
   m_Layer: 0
   m_Name: Lost Soul
   m_TagString: Enemy
@@ -79,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 35fef4cbfd733ac4890a9c7ed87010a9, type: 3}
+  m_Sprite: {fileID: -1724095806, guid: 9ea3c0b7ac565c943b94789f5a4c67fc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -227,7 +228,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.25
+  m_Time: 0.5
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -237,7 +238,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.5
+        value: 0.8
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -246,7 +247,7 @@ TrailRenderer:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 0
+        value: 0.2
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -307,10 +308,10 @@ AudioSource:
   m_GameObject: {fileID: 1153892062983812426}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -8384975319186035451, guid: 61959a8ab92cd294398b8f9a05f4c680, type: 2}
   m_audioClip: {fileID: 8300000, guid: 90139f9463edf0d4b9b70a89cdce6d07, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -490,3 +491,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &8400593294367922526
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153892062983812426}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 54de66b27d3d43941a76fda3ae13a4fb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
