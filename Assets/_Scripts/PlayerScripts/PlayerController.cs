@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("References")]
     private CameraShake shake;
+    private Animator animator;
 
     [Header("Private")]
     private movementStates currentState;
@@ -84,6 +85,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
         shake = FindObjectOfType<CameraShake>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -94,6 +96,8 @@ public class PlayerController : MonoBehaviour
         input.x = Input.GetAxisRaw("Horizontal");
         input.y = Input.GetAxisRaw("Vertical");
         input.Normalize();
+
+        animator.SetBool("CanDash", canDash);
 
         if(input.magnitude != 0) {
             lastInput = input;
@@ -197,6 +201,7 @@ public class PlayerController : MonoBehaviour
         Instantiate(dashParticles1, transform.position, Quaternion.identity);
         Instantiate(dashParticles2, transform.position, Quaternion.identity);
         shake.StartCoroutine(shake.Shake(.1f, .25f));
+        animator.SetTrigger("Dash");
         isDashing = true;
         canDash = false;
         canMove = false;
@@ -246,6 +251,7 @@ public class PlayerController : MonoBehaviour
         }
         canMove = false;
         yield return new WaitForSeconds(duration);
+        rb.velocity = Vector2.zero;
         canMove = true;
     }
 

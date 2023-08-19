@@ -23,7 +23,7 @@ public class PusherController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.tag == "Player") {
             player = other.GetComponent<PlayerController>();
-            player.PlayerStopMovementForTime(.2f);
+            player.PlayerStopMovementForTime(1f);
             animator.SetTrigger("Push");
             Vector2 incVelocity = (player.transform.position - transform.position).normalized;
             Vector2 newVelocity = incVelocity * pushForce;
