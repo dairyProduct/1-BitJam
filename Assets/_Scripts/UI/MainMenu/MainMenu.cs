@@ -110,7 +110,7 @@ public class MainMenu : MonoBehaviour
             return;
         }
         SavePlayerData();
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("intro");
     }
 
     public void OpenLeaderBoard(){

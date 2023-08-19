@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.TextCore.Text;
 
 public class IntroManager : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class IntroManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        text1.enabled = true;
+        text1.enabled = false;
         text2.enabled = false;
         text3.enabled = false;
         StartCoroutine(Intro());
@@ -21,16 +22,14 @@ public class IntroManager : MonoBehaviour
 
     IEnumerator Intro() {
         yield return new WaitForSeconds(1);
-        text2.enabled = true;
+        text1.enabled = true;
         yield return new WaitForSeconds(1);
-        text3.enabled = false;
+        text1.fontStyle = TMPro.FontStyles.Strikethrough;
+        yield return new WaitForSeconds(1);
+        text2.enabled = true;
         yield return new WaitForSeconds(2);
+        text3.enabled = true;
+        yield return new WaitForSeconds(3);
         SceneManager.LoadScene("Main_01");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
