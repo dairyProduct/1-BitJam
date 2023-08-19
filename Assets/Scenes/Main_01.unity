@@ -445,6 +445,12 @@ MonoBehaviour:
   - Segment4
   - Segment5
   - Segment6
+  - Segment7
+  - Segment8
+  - Segment9
+  - Segment10
+  - Segment11
+  - Segment12
 --- !u!1 &138458465
 GameObject:
   m_ObjectHideFlags: 0
@@ -747,6 +753,12 @@ MonoBehaviour:
   - Segment4
   - Segment5
   - Segment6
+  - Segment7
+  - Segment8
+  - Segment9
+  - Segment10
+  - Segment11
+  - Segment12
 --- !u!1 &297705702
 GameObject:
   m_ObjectHideFlags: 0
@@ -7623,6 +7635,13 @@ MonoBehaviour:
   - Segment3
   - Segment4
   - Segment5
+  - Segment6
+  - Segment7
+  - Segment8
+  - Segment9
+  - Segment10
+  - Segment11
+  - Segment12
 --- !u!1 &1464994489
 GameObject:
   m_ObjectHideFlags: 0

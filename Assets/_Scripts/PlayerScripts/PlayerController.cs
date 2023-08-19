@@ -248,7 +248,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public void IncreaseScore(int amount){
-        gameController.gameObject.GetComponent<UIController>().UpdateScoreMultiplier(scoreMultiplier);
+        gameController.gameObject.GetComponent<UIController>().UpdateScoreUI(amount);
     }
 
 

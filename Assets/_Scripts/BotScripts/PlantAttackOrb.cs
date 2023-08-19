@@ -22,7 +22,7 @@ public class PlantAttackOrb : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "Player") {
             if(player.isDashing) {
-                uIController.UpdateScoreUI(3);
+                uIController.UpdateScoreUI(1);
                 Instantiate(deathParticles, transform.position, Quaternion.identity);
                 //audioSource.PlayOneShot(death);
                 player.DashReset();
@@ -32,6 +32,12 @@ public class PlantAttackOrb : MonoBehaviour
                 //audioSource.PlayOneShot(death);
                 Destroy(gameObject);
             }
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D other){
+        if(other.gameObject.name == "Ground" || other.gameObject.name == "Impassable" ){
+            Instantiate(deathParticles, transform.position, Quaternion.identity);
+            Destroy(gameObject);
         }
     }
 }
