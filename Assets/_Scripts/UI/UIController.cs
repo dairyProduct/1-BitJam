@@ -13,6 +13,7 @@ public class UIController : MonoBehaviour
     [SerializeField] Canvas pauseCanvas, settingsCanvas;
     [SerializeField] TextMeshProUGUI musicPercent, soundPercent, bestScoreText, currentScoreText, scoreMultiplierText;
     [SerializeField] Slider musicSlider, soundSlider;
+    [SerializeField] TMP_Dropdown controlsDropdown;
     [SerializeField] Animator fadeAnimator, pauseTextAnimator;
     [SerializeField] AudioSource pauseGameAudioSource;
     [SerializeField] AudioClip pauseGame, unpauseGame;
@@ -21,7 +22,7 @@ public class UIController : MonoBehaviour
     public AudioClip pressSound;
     public AudioMixer mixer;
 
-
+    private const string controlsKey = "Controls";
     private const string musicVolumeKey = "MusicVolume";
     private const string soundVolumeKey = "SoundVolume";
     private const string bestScoreKey = "BestScoreValue";
@@ -29,6 +30,7 @@ public class UIController : MonoBehaviour
     private int defaultScore, scoreEarned = 0;
     private Transform cam;
     private bool gamePaused, inSettings;
+    PlayerController player;
     void Awake(){
         LoadPlayerInGameData();
         PlayFadeIn();
@@ -36,6 +38,9 @@ public class UIController : MonoBehaviour
     void Start()
     {
         cam = GameObject.Find("CameraHolder").transform;
+        player = FindObjectOfType<PlayerController>();
+        
+        
         
     }
 
@@ -95,6 +100,11 @@ public class UIController : MonoBehaviour
         {
             bestScoreText.text = defaultScore.ToString();
         }
+        if(PlayerPrefs.HasKey(controlsKey)) {
+            controlsDropdown.value = PlayerPrefs.GetInt(controlsKey);
+        } else {
+            controlsDropdown.value = 0;
+        }
         ChangePercentages();
     }
 
@@ -111,11 +121,21 @@ public class UIController : MonoBehaviour
         musicPercent.text = Mathf.RoundToInt((musicSlider.value * 100f)).ToString() + "%";
         soundPercent.text = Mathf.RoundToInt((soundSlider.value * 100f)).ToString() + "%";
     }
+
+    public void SetControls() {
+        if(player == null) return;
+        if(controlsDropdown.value == 0) {
+            player.SetControls(true);
+        } else {
+            player.SetControls(false);
+        }
+    }
     
 
     public void SaveSettingsData(){   
         PlayerPrefs.SetFloat(musicVolumeKey, musicSlider.value);
         PlayerPrefs.SetFloat(soundVolumeKey, soundSlider.value);
+        PlayerPrefs.SetInt(controlsKey, controlsDropdown.value);
         PlayerPrefs.Save(); 
     }
 

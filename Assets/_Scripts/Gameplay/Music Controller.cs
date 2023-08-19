@@ -38,6 +38,7 @@ public class MusicController : MonoBehaviour
             source1.clip = piano;
             source5.clip = synth;
             source1.Play();
+            source5.time = source1.time;
             source5.Play();
         } else if(difficulty == 1) {
             StartCoroutine(FadeInTrack(source2, strings));
