@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class UIController : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class UIController : MonoBehaviour
     [SerializeField] Animator fadeAnimator, pauseTextAnimator;
     [SerializeField] AudioSource pauseGameAudioSource;
     [SerializeField] AudioClip pauseGame, unpauseGame;
+    public AudioMixer mixer;
 
 
     private const string musicVolumeKey = "MusicVolume";
@@ -96,17 +98,9 @@ public class UIController : MonoBehaviour
 
     private void ApplyVolume()
     {
-        // Find all audio sources in the scene and set their volume
-        AudioSource[] audioSources = FindObjectsOfType<AudioSource>();
-        foreach (AudioSource audioSource in audioSources)
-        {
-            if(audioSource.loop == false){
-                audioSource.volume = soundSlider.value / 100;
-            }
-            else{
-                audioSource.volume = musicSlider.value / 100;
-            }
-        }
+        // Sound Mixer Magic lolololololol
+        mixer.SetFloat("Music", Mathf.Log10(musicSlider.value) * 20f);
+        mixer.SetFloat("Sound", Mathf.Log10(soundSlider.value) * 20f);
     }
 
     public void ChangePercentages(){

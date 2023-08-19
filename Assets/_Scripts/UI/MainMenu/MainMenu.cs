@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.Events;
+using UnityEngine.Audio;
 
 [RequireComponent(typeof(LeaderBoard))]
 public class MainMenu : MonoBehaviour
@@ -17,6 +18,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] GameObject musicPlayer;
     [SerializeField] AudioSource menuAudioSource;
     [SerializeField] AudioClip[] menuAudio;
+    public AudioMixer mixer;
 
     private const string userNameKey = "UserName";
     private const string musicVolumeKey = "MusicVolume";
@@ -75,23 +77,15 @@ public class MainMenu : MonoBehaviour
     }
     private void ApplyVolume()
     {
-        // Find all audio sources in the scene and set their volume
-        AudioSource[] audioSources = FindObjectsOfType<AudioSource>();
-        foreach (AudioSource audioSource in audioSources)
-        {
-            if(audioSource.loop == false){
-                audioSource.volume = soundSlider.value / 100;
-            }
-            else{
-                audioSource.volume = musicSlider.value / 100;
-            }
-        }
+        // Sound Mixer Magic lolololololol
+        mixer.SetFloat("MusicVolume", Mathf.Log10(musicSlider.value) * 20f);
+        mixer.SetFloat("SoundVolume", Mathf.Log10(soundSlider.value) * 20f);
     }
 
     public void ChangePercentages(){
         ApplyVolume();
-        musicPercent.text = (musicSlider.value).ToString() + "%";
-        soundPercent.text = (soundSlider.value).ToString() + "%";
+        musicPercent.text = Mathf.RoundToInt((musicSlider.value * 100f)).ToString() + "%";
+        soundPercent.text = Mathf.RoundToInt((soundSlider.value * 100f)).ToString() + "%";
     }
     
 
@@ -116,7 +110,7 @@ public class MainMenu : MonoBehaviour
             return;
         }
         SavePlayerData();
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("intro");
     }
 
     public void OpenLeaderBoard(){
