@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1480006675389951818}
   - component: {fileID: 7673614683556080040}
   - component: {fileID: 6342717822481231816}
+  - component: {fileID: 4110703118338009550}
   m_Layer: 0
   m_Name: Pusher
   m_TagString: Untagged
@@ -192,3 +193,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4110703118338009550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5908083482743021669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0872ff46f5d5b8941a78a3386d75e635, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGrid: 0

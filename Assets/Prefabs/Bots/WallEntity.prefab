@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1267970839619334672}
   - component: {fileID: 6212550667649098486}
   - component: {fileID: 8826462988300421375}
+  - component: {fileID: 847136877453111743}
   m_Layer: 0
   m_Name: WallEntity
   m_TagString: Enemy
@@ -199,3 +200,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &847136877453111743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2897435909240780308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0872ff46f5d5b8941a78a3386d75e635, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGrid: 0
