@@ -117,6 +117,7 @@ MonoBehaviour:
   enterWall: {fileID: 8300000, guid: 591446c675c04dd4caef619655ebc5a2, type: 3}
   exitWall: {fileID: 8300000, guid: 1b9492dbe44c3f046b197b1fbb3b810b, type: 3}
   death: {fileID: 8300000, guid: cec3c66a573720a4c8edb907efbdb95a, type: 3}
+  dashRecover: {fileID: 8300000, guid: d23c0f3b96e66bd4cbd0c233b06afd65, type: 3}
   enterForce: 3
   exitForce: 2
   groundMask:

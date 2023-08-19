@@ -25,7 +25,7 @@ public class PlantAttackOrb : MonoBehaviour
                 uIController.UpdateScoreUI(3);
                 Instantiate(deathParticles, transform.position, Quaternion.identity);
                 //audioSource.PlayOneShot(death);
-                player.DashReset();
+                player.DashReset(true);
                 Destroy(gameObject);
             } else {
                 player.StartCoroutine(player.PlayerDeath());

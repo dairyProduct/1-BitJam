@@ -78,7 +78,7 @@ public class LostSoulsMovement : MonoBehaviour
                 Instantiate(deathParticles, transform.position, Quaternion.identity);
                 audioSourceOne.PlayOneShot(death);
                 shake.StartCoroutine(shake.Shake(.1f, .5f));
-                player.DashReset();
+                player.DashReset(true);
                 Destroy(gameObject);
             } else {
                 player.StartCoroutine(player.PlayerDeath());

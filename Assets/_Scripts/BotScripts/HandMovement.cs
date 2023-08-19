@@ -75,7 +75,7 @@ public class HandMovement : MonoBehaviour
         if (other.tag == "Player") {
             if(player.isDashing) {
                 Instantiate(deathParticles, transform.position, Quaternion.identity);
-                player.DashReset();
+                player.DashReset(true);
                 shake.StartCoroutine(shake.Shake(.1f, .5f));
                 Destroy(gameObject);
             }
