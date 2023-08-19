@@ -104,11 +104,12 @@ public class MainMenu : MonoBehaviour
 
     #region MainMenuOnlyButtonLogic
     public void StartGame(){
-        if(userNameField.text.Length <= 2 || userNameField.text.Length > 15){
+        /*if(userNameField.text.Length <= 2 || userNameField.text.Length > 15){
             StopAllCoroutines();
             StartCoroutine(NameFailure(userNameField.text.Length));
             return;
         }
+        */
         SavePlayerData();
         SceneManager.LoadScene("intro");
     }

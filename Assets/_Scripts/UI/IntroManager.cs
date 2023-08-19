@@ -29,7 +29,13 @@ public class IntroManager : MonoBehaviour
         text2.enabled = true;
         yield return new WaitForSeconds(2);
         text3.enabled = true;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
+        text1.enabled = false;
+        yield return new WaitForSeconds(.25f);
+        text2.enabled = false;
+        yield return new WaitForSeconds(.25f);
+        text3.enabled = false;
+        yield return new WaitForSeconds(.25f);
         SceneManager.LoadScene("Main_01");
     }
 }

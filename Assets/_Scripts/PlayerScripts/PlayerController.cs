@@ -241,6 +241,15 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    public IEnumerator PlayerStopMovementForTime(float duration) {
+        if(dashRoutine != null) {
+            StopCoroutine(dashRoutine);
+        }
+        canMove = false;
+        yield return new WaitForSeconds(duration);
+        canMove = true;
+    }
+
     public void DashReset() {
         scoreMultiplier += 1;
         gameController.gameObject.GetComponent<UIController>().UpdateScoreMultiplier(scoreMultiplier);
