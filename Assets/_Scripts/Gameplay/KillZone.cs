@@ -20,7 +20,7 @@ public class KillZone : MonoBehaviour
         if(other == null) return;
         if(other.tag == "Player") {
             PlayerController player = other.gameObject.GetComponent<PlayerController>();
-            StartCoroutine(player.PlayerDeath());
+            StartCoroutine(player.PlayerDeath(true));
         }
         if(other.tag == "Enemy") {
             Destroy(other.gameObject);

@@ -220,8 +220,10 @@ public class PlayerController : MonoBehaviour
         isDashing = false;
     }
 
-    public IEnumerator PlayerDeath(){
-        if(died || isDashing) yield break;
+    public IEnumerator PlayerDeath(bool forceDeath = false){
+        if(!forceDeath && !died){
+            if(died || isDashing) yield break;
+        }
         gameController.GameOver();
         died = true;
         shake.StartCoroutine(shake.Shake(.1f, .5f));
