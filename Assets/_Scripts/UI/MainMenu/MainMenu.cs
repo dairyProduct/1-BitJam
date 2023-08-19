@@ -18,6 +18,9 @@ public class MainMenu : MonoBehaviour
     [SerializeField] GameObject musicPlayer;
     [SerializeField] AudioSource menuAudioSource;
     [SerializeField] AudioClip[] menuAudio;
+
+    public AudioClip hoverSound;
+    public AudioClip pressSound;
     public AudioMixer mixer;
 
     private const string userNameKey = "UserName";
@@ -139,7 +142,12 @@ public class MainMenu : MonoBehaviour
         mainMenuCanvas.enabled = true;
         SavePlayerData();
     }
-
+    public void PlayHoverAudio() {
+        menuAudioSource.PlayOneShot(hoverSound);
+    }
+    public void PlayPressAudio() {
+        menuAudioSource.PlayOneShot(pressSound);
+    }
 
 
     

@@ -104,6 +104,10 @@ public class EyeController : MonoBehaviour
 
             #endregion
 
+            if(currentParticle != null) {
+                currentParticle.transform.position = transform.position;
+            }
+
             //ChargeParticleSpeed
             //currentParticle.emission.rateOverTimeMultiplier = (chargeTime - time) * 10f;
 
