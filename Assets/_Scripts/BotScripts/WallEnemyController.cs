@@ -21,6 +21,7 @@ public class WallEnemyController : MonoBehaviour
     {
         player = FindObjectOfType<PlayerController>();
         uIController = FindObjectOfType<UIController>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void SpawnAttack(){
@@ -44,12 +45,12 @@ public class WallEnemyController : MonoBehaviour
             if(player.isDashing) {
                 uIController.UpdateScoreUI(3);
                 Instantiate(deathParticles, transform.position, Quaternion.identity);
-                //audioSource.PlayOneShot(death);
+                audioSource.PlayOneShot(death);
                 player.DashReset(true);
                 Destroy(gameObject);
             } else {
                 player.StartCoroutine(player.PlayerDeath());
-                //audioSource.PlayOneShot(death);
+                audioSource.PlayOneShot(death);
                 Destroy(gameObject);
             }
         }

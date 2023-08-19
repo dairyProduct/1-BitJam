@@ -87,6 +87,7 @@ public class LeaderBoard : MonoBehaviour
 
     public void SubmitScore(){
         if(!PlayerPrefs.HasKey(bestScoreKey)) return;
+        Debug.Log("Updateing Score");
         int score = PlayerPrefs.GetInt(bestScoreKey);
         string playerName = PlayerPrefs.GetString(userNameKey);
         submitScoreEvent.Invoke(playerName, score);
