@@ -17,6 +17,7 @@ public class PlantAttackOrb : MonoBehaviour
         player = FindObjectOfType<PlayerController>();
         uIController = FindObjectOfType<UIController>();
         //audioSource.Play();
+        Invoke("Death", 10f);
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
@@ -39,5 +40,9 @@ public class PlantAttackOrb : MonoBehaviour
             Instantiate(deathParticles, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
+    }
+
+    void Death() {
+        Destroy(gameObject);
     }
 }

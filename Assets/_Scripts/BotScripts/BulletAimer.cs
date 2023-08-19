@@ -11,10 +11,14 @@ public class BulletAimer : MonoBehaviour
     private bool isTracking = true; 
     private bool collided = false;
     private Vector3 direction;
+
+    AudioSource audioSource;
+    public AudioClip hitSound;
     //public AudioClip[] sounds;
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         playerController = FindObjectOfType<PlayerController>();
         //GetComponent<AudioSource>().clip = sounds[Random.Range(0, sounds.Length-1)];
         //GetComponent<AudioSource>().Play(0);
@@ -57,6 +61,7 @@ public class BulletAimer : MonoBehaviour
     }
 
     private IEnumerator DestroyEnergyBall(){
+        audioSource.PlayOneShot(hitSound);
         ps1.Play();
         ps2.Play();
         collided = true;
