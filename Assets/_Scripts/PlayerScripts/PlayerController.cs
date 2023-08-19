@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]
     public Rigidbody2D rb;
     Vector2 lastInput;
+    private int scoreMultiplier = 1;
 
 
     public enum movementStates {
@@ -169,6 +170,7 @@ public class PlayerController : MonoBehaviour
     }
 
     IEnumerator EnterWall() { //Enter Wall Force
+        scoreMultiplier = 1;
         canMove = false;
         rb.AddForce(lastAirVelocity.normalized * enterForce, ForceMode2D.Impulse);
         //rb.AddForce(input * enterForce, ForceMode2D.Impulse);
@@ -239,6 +241,8 @@ public class PlayerController : MonoBehaviour
     }
 
     public void DashReset() {
+        scoreMultiplier++;
+        gameController.gameObject.GetComponent<UIController>().UpdateScoreMultiplier(scoreMultiplier);
         canDash = true;
     }
 

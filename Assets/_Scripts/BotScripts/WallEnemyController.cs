@@ -5,7 +5,8 @@ using UnityEngine;
 public class WallEnemyController : MonoBehaviour
 {
     [SerializeField] GameObject attackPrefab;
-    
+    [Tooltip("How fast the attack will move. initial velocity")]
+    [SerializeField] float attackSpeed;
     [Header("Particles")]
     [SerializeField] GameObject deathParticles;
     [Header("Audio")]
@@ -21,18 +22,31 @@ public class WallEnemyController : MonoBehaviour
     }
 
     public void SpawnAttack(){
-        GameObject n = Instantiate(attackPrefab, transform.position, Quaternion.identity);
+        GameObject n = (GameObject)Instantiate(attackPrefab, transform.position, Quaternion.identity);
+        //there's probably a way better way to give the attack a direction but i'm dum idk
+        if(transform.rotation.z == 0f){
+            n.GetComponent<Rigidbody2D>().velocity = Vector2.left * attackSpeed;
+        }
+        else if(transform.rotation.z == 0.7071068f){
+            Debug.Log("Bruh");
+            n.GetComponent<Rigidbody2D>().velocity = Vector2.down * attackSpeed;
+        }
+        else if(transform.rotation.z == 1f){
+            n.GetComponent<Rigidbody2D>().velocity = Vector2.right * attackSpeed;
+        }
+
+        
     }
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "Player") {
             if(player.isDashing) {
                 Instantiate(deathParticles, transform.position, Quaternion.identity);
-                audioSource.PlayOneShot(death);
+                //audioSource.PlayOneShot(death);
                 player.DashReset();
                 Destroy(gameObject);
             } else {
                 player.StartCoroutine(player.PlayerDeath());
-                audioSource.PlayOneShot(death);
+                //audioSource.PlayOneShot(death);
                 Destroy(gameObject);
             }
         }
