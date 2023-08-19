@@ -17,6 +17,8 @@ public class UIController : MonoBehaviour
     [SerializeField] AudioSource pauseGameAudioSource;
     [SerializeField] AudioClip pauseGame, unpauseGame;
 
+    public AudioClip hoverSound;
+    public AudioClip pressSound;
     public AudioMixer mixer;
 
 
@@ -106,8 +108,8 @@ public class UIController : MonoBehaviour
 
     public void ChangePercentages(){
         ApplyVolume();
-        musicPercent.text = (musicSlider.value).ToString() + "%";
-        soundPercent.text = (soundSlider.value).ToString() + "%";
+        musicPercent.text = Mathf.RoundToInt((musicSlider.value * 100f)).ToString() + "%";
+        soundPercent.text = Mathf.RoundToInt((soundSlider.value * 100f)).ToString() + "%";
     }
     
 
@@ -169,6 +171,13 @@ public class UIController : MonoBehaviour
         pauseCanvas.enabled = false;
         //pauseGameAudioSource.clip = pauseGame;
         //pauseGameAudioSource.Play();
+    }
+
+    public void PlayerHoverSound() {
+        pauseGameAudioSource.PlayOneShot(hoverSound);
+    }
+    public void PlayPressSound() {
+        pauseGameAudioSource.PlayOneShot(pressSound);
     }
 
     private void PlayFadeIn(){

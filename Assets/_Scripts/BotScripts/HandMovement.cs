@@ -12,6 +12,8 @@ public class HandMovement : MonoBehaviour
     [Header("Particles")]
     public GameObject deathParticles;
 
+    public AudioClip spawnSound;
+
 
     [SerializeField] GameObject flamePrefab;
 
@@ -22,6 +24,7 @@ public class HandMovement : MonoBehaviour
     CameraShake shake;
     bool checking;
     private UIController uIController;
+    private AudioSource audioSource;
     private void Start()
     {
         movementTimer = movementInterval + 2f;
@@ -29,6 +32,7 @@ public class HandMovement : MonoBehaviour
         
         rb = GetComponent<Rigidbody2D>();
         shake = FindObjectOfType<CameraShake>();
+        audioSource = GetComponent<AudioSource>();
 
         StartCoroutine(InRange());
         uIController = FindObjectOfType<UIController>();
@@ -63,6 +67,7 @@ public class HandMovement : MonoBehaviour
         while(true) {
             if(Vector2.Distance(transform.position, player.transform.position) <= attackDistance ) {
                 GameObject flame = Instantiate(flamePrefab, transform);
+                audioSource.PlayOneShot(spawnSound);
                 yield return new WaitForSeconds(1f);
             }
             ChooseRandomTargetPosition();
