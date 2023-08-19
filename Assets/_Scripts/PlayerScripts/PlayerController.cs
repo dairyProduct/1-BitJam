@@ -171,6 +171,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator EnterWall() { //Enter Wall Force
         scoreMultiplier = 1;
+        gameController.gameObject.GetComponent<UIController>().UpdateScoreMultiplier(scoreMultiplier);
         canMove = false;
         rb.AddForce(lastAirVelocity.normalized * enterForce, ForceMode2D.Impulse);
         //rb.AddForce(input * enterForce, ForceMode2D.Impulse);
@@ -241,7 +242,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public void DashReset() {
-        scoreMultiplier++;
+        scoreMultiplier += 1;
         gameController.gameObject.GetComponent<UIController>().UpdateScoreMultiplier(scoreMultiplier);
         canDash = true;
     }

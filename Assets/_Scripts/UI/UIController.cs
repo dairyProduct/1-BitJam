@@ -49,7 +49,7 @@ public class UIController : MonoBehaviour
                 CloseSettings();
             }
         }
-        
+        UpdateScoreUI(0);
         
     }
 
