@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip enterWall;
     public AudioClip exitWall;
     public AudioClip death;
+    public AudioClip dashRecover;
 
     AudioSource audioSource;
 
@@ -83,7 +84,6 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
         shake = FindObjectOfType<CameraShake>();
-        //lightUpdate();
     }
 
     void Update()
@@ -219,7 +219,6 @@ public class PlayerController : MonoBehaviour
         if(died || isDashing) yield break;
         gameController.GameOver();
         died = true;
-        Debug.Log("Dead");
         shake.StartCoroutine(shake.Shake(.1f, .5f));
         
         rb.gravityScale = 0;
@@ -241,8 +240,20 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    public void DashReset() {
-        scoreMultiplier += 1;
+    public IEnumerator PlayerStopMovementForTime(float duration) {
+        if(dashRoutine != null) {
+            StopCoroutine(dashRoutine);
+        }
+        canMove = false;
+        yield return new WaitForSeconds(duration);
+        canMove = true;
+    }
+
+    public void DashReset(bool increaseMultiplier) {
+        if(increaseMultiplier) {
+            scoreMultiplier += 1;
+        }
+        audioSource.PlayOneShot(dashRecover);
         gameController.gameObject.GetComponent<UIController>().UpdateScoreMultiplier(scoreMultiplier);
         canDash = true;
     }
