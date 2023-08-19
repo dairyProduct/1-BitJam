@@ -15,10 +15,12 @@ public class WallEnemyController : MonoBehaviour
     [SerializeField] AudioClip death;
     private AudioSource audioSource;
     private PlayerController player;
+    private UIController uIController;
     // Start is called before the first frame update
     void Start()
     {
         player = FindObjectOfType<PlayerController>();
+        uIController = FindObjectOfType<UIController>();
     }
 
     public void SpawnAttack(){
@@ -40,6 +42,7 @@ public class WallEnemyController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "Player") {
             if(player.isDashing) {
+                uIController.UpdateScoreUI(3);
                 Instantiate(deathParticles, transform.position, Quaternion.identity);
                 //audioSource.PlayOneShot(death);
                 player.DashReset();

@@ -21,7 +21,7 @@ public class HandMovement : MonoBehaviour
     private float movementTimer;
     CameraShake shake;
     bool checking;
-
+    private UIController uIController;
     private void Start()
     {
         movementTimer = movementInterval + 2f;
@@ -31,6 +31,7 @@ public class HandMovement : MonoBehaviour
         shake = FindObjectOfType<CameraShake>();
 
         StartCoroutine(InRange());
+        uIController = FindObjectOfType<UIController>();
     }
 
     private void Update()

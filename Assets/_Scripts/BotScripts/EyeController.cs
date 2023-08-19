@@ -40,6 +40,7 @@ public class EyeController : MonoBehaviour
     RaycastHit2D hit2D;
     RaycastHit2D playerHit;
     private CameraShake shake;
+    private UIController uIController;
 
     float time;
     void Start()
@@ -50,6 +51,7 @@ public class EyeController : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         shake = FindObjectOfType<CameraShake>();
         StartCoroutine(Charge());
+        uIController = FindObjectOfType<UIController>();
     }
 
     // Update is called once per frame
@@ -146,6 +148,7 @@ public class EyeController : MonoBehaviour
                     if(currentParticle != null) {
                     Destroy(currentParticle);
                     }
+                    uIController.UpdateScoreUI(7);
                     Instantiate(deathParticles, transform.position, Quaternion.identity);
                     shake.StartCoroutine(shake.Shake(.1f, .5f));
                     audioSource.PlayOneShot(death);

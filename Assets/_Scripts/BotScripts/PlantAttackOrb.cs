@@ -11,15 +11,18 @@ public class PlantAttackOrb : MonoBehaviour
     [SerializeField] AudioClip OrbSound;
     private AudioSource audioSource;
     private PlayerController player;
+    private UIController uIController;
     void Start()
     {
         player = FindObjectOfType<PlayerController>();
+        uIController = FindObjectOfType<UIController>();
         //audioSource.Play();
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "Player") {
             if(player.isDashing) {
+                uIController.UpdateScoreUI(3);
                 Instantiate(deathParticles, transform.position, Quaternion.identity);
                 //audioSource.PlayOneShot(death);
                 player.DashReset();

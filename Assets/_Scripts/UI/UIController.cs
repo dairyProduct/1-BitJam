@@ -10,7 +10,7 @@ public class UIController : MonoBehaviour
 
 
     [SerializeField] Canvas pauseCanvas, settingsCanvas;
-    [SerializeField] TextMeshProUGUI musicPercent, soundPercent, bestScoreText, currentScoreText;
+    [SerializeField] TextMeshProUGUI musicPercent, soundPercent, bestScoreText, currentScoreText, scoreMultiplierText;
     [SerializeField] Slider musicSlider, soundSlider;
     [SerializeField] Animator fadeAnimator, pauseTextAnimator;
     [SerializeField] AudioSource pauseGameAudioSource;
@@ -21,7 +21,7 @@ public class UIController : MonoBehaviour
     private const string soundVolumeKey = "SoundVolume";
     private const string bestScoreKey = "BestScoreValue";
     private float defaultVolume = 50f;
-    private int defaultScore = 0;
+    private int defaultScore, scoreEarned = 0;
     private Transform cam;
     private bool gamePaused, inSettings;
     void Awake(){
@@ -49,10 +49,9 @@ public class UIController : MonoBehaviour
                 CloseSettings();
             }
         }
-        currentScoreText.text = ((int)cam.transform.position.y).ToString();
+        
+        currentScoreText.text = ((int)cam.transform.position.y + scoreEarned).ToString();
     }
-
-
 
 
     
@@ -186,11 +185,17 @@ public class UIController : MonoBehaviour
         bestScoreText.transform.parent.GetComponent<Animator>().enabled = false;
         currentScoreText.transform.parent.GetComponent<Animator>().enabled = false;
         fadeAnimator.SetTrigger("GameEnded");
-        
-
+    }
+    public void UpdateScoreMultiplier(int scoreMultiplier){
+        scoreMultiplierText.text = scoreMultiplier.ToString();
+    }
+    public void UpdateScoreUI(int score){
+        scoreEarned += score * int.Parse(scoreMultiplierText.text);
+        currentScoreText.text = ((int)cam.transform.position.y + scoreEarned).ToString();
     }
 
-
     #endregion
+
+
     
 }

@@ -10,7 +10,6 @@ public class LoadAndUnloadAdditive : MonoBehaviour
     
     [Tooltip("Segments will load '1,2,3,1,2,3,1... and cycle as such. This way there's something on screen no matter how fast the screen scrolls")]
     [SerializeField] float loadDistance = 20f;
-    [SerializeField] float unloadDistance = 0f;
     [Tooltip("Name of the scene to load!")]
     [SerializeField] string[] sceneName;
 

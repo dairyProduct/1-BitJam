@@ -55,9 +55,6 @@ public class GameController : MonoBehaviour
         lastCheckPoint = checkpoint;
     }
 
-    private void Update() {
-        
-    }
     public void NewDifficulty(){
         StartCoroutine(ChoseEnemiesFromDifficulty());
         IncreaseSpeed();

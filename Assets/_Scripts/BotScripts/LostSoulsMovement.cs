@@ -24,6 +24,7 @@ public class LostSoulsMovement : MonoBehaviour
 
     private bool isGrounded;
     public LayerMask groundMask;
+    private UIController uIController;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +34,7 @@ public class LostSoulsMovement : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         shake = FindObjectOfType<CameraShake>();
         audioSourceLoop.clip = chase;
+        uIController = FindObjectOfType<UIController>();
     }
 
     // Update is called once per frame
@@ -67,6 +69,7 @@ public class LostSoulsMovement : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "Player") {
             if(player.isDashing) {
+                uIController.UpdateScoreUI(5);
                 Instantiate(deathParticles, transform.position, Quaternion.identity);
                 audioSourceOne.PlayOneShot(death);
                 shake.StartCoroutine(shake.Shake(.1f, .5f));

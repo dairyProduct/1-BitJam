@@ -246,5 +246,9 @@ public class PlayerController : MonoBehaviour
         canDash = true;
     }
 
+    public void IncreaseScore(int amount){
+        gameController.gameObject.GetComponent<UIController>().UpdateScoreMultiplier(scoreMultiplier);
+    }
+
 
 }
