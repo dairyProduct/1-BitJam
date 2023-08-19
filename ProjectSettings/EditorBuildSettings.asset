@@ -32,9 +32,24 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MapSegments/Segment6.unity
     guid: 0c70f895c175e364798baec1a4f8bac6
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MapSegments/Segment7.unity
     guid: c8e35f5671f21734f936b53db0d61c13
+  - enabled: 1
+    path: Assets/Scenes/MapSegments/Segment8.unity
+    guid: 0c93f31422e95d444a737b4f3a8b43e2
+  - enabled: 1
+    path: Assets/Scenes/MapSegments/Segment9.unity
+    guid: ea05dbb0e2732e4409e5f40f799ffbbc
+  - enabled: 1
+    path: Assets/Scenes/MapSegments/Segment10.unity
+    guid: 132e64e8589bee74eb3f62f1dad96bc9
+  - enabled: 1
+    path: Assets/Scenes/MapSegments/Segment11.unity
+    guid: 5e966cdbda8623444a781c91930297ee
+  - enabled: 1
+    path: Assets/Scenes/MapSegments/Segment12.unity
+    guid: 50c7aba760352dc4680d8ceccda05498
   - enabled: 0
     path: Assets/Scenes/DanTest.unity
     guid: 672740f00d3fdd94f8a3205bfc1cbcb6
