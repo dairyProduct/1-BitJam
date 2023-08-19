@@ -9,7 +9,6 @@ public class UIController : MonoBehaviour
 {
 
 
-    [SerializeField] Image gameOverPanel;
     [SerializeField] Canvas pauseCanvas, settingsCanvas;
     [SerializeField] TextMeshProUGUI musicPercent, soundPercent, bestScoreText, currentScoreText;
     [SerializeField] Slider musicSlider, soundSlider;
