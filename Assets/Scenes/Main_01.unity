@@ -1057,7 +1057,6 @@ GameObject:
   - component: {fileID: 465405175}
   - component: {fileID: 465405174}
   - component: {fileID: 465405176}
-  - component: {fileID: 465405177}
   m_Layer: 0
   m_Name: KillZone
   m_TagString: Untagged
@@ -1199,12 +1198,12 @@ AudioSource:
   m_GameObject: {fileID: 465405171}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -8384975319186035451, guid: 61959a8ab92cd294398b8f9a05f4c680, type: 2}
   m_audioClip: {fileID: 8300000, guid: 96036d41b5de1cb4ab40ff9fbe003376, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -1286,19 +1285,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &465405177
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 465405171}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48391200b20d0b643a149156c45c2407, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 465405176}
 --- !u!1 &541446165
 GameObject:
   m_ObjectHideFlags: 0
