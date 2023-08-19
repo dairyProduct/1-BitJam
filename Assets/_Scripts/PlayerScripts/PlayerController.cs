@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour
     public bool isDashing;
     public delegate void callback();
     private Coroutine dashRoutine;
+    private bool usingKeyboard = true;
 
     [HideInInspector]
     public GameController gameController;
@@ -86,6 +87,12 @@ public class PlayerController : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         shake = FindObjectOfType<CameraShake>();
         animator = GetComponent<Animator>();
+        if(PlayerPrefs.GetInt("Controls") == 0) {
+            SetControls(true);
+        } else {
+            SetControls(false);
+        }
+        
     }
 
     void Update()
@@ -93,15 +100,27 @@ public class PlayerController : MonoBehaviour
         if(died) return;
         isGrounded = Physics2D.OverlapCircle(transform.position, playerSize, groundMask);
 
-        input.x = Input.GetAxisRaw("Horizontal");
-        input.y = Input.GetAxisRaw("Vertical");
-        input.Normalize();
+        if(usingKeyboard) {
+            input.x = Input.GetAxisRaw("Horizontal");
+            input.y = Input.GetAxisRaw("Vertical");
+            input.Normalize();
+
+            if(input.magnitude != 0) {
+            lastInput = input;
+            }
+        } else {
+            Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+            lastInput = direction.normalized;
+            if(Input.GetKey(KeyCode.Mouse0)) {
+                input = direction.normalized;
+            } else {
+                input = Vector2.zero;
+            }
+        }
+        
 
         animator.SetBool("CanDash", canDash);
-
-        if(input.magnitude != 0) {
-            lastInput = input;
-        }
+        
 
         prevState = currentState;
 
@@ -118,13 +137,24 @@ public class PlayerController : MonoBehaviour
         }
 
         //Dash Input
-        if(Input.GetButtonDown("Jump") && !isGrounded && canDash) {
+        if(usingKeyboard) {
+            if(Input.GetButtonDown("Jump") && !isGrounded && canDash) {
             if(dashRoutine != null) {
                 StopCoroutine(dashRoutine);
             }
             dashRoutine = StartCoroutine(Dash());
             playerSparkleParticles.Stop();
         }
+        } else {
+            if(Input.GetKeyDown(KeyCode.Mouse1) && !isGrounded && canDash) {
+            if(dashRoutine != null) {
+                StopCoroutine(dashRoutine);
+            }
+            dashRoutine = StartCoroutine(Dash());
+            playerSparkleParticles.Stop();
+        }
+        }
+        
 
         //Adds force when Exiting or entering a Wall
         if(prevState == movementStates.falling && currentState == movementStates.inWall) {
@@ -207,7 +237,7 @@ public class PlayerController : MonoBehaviour
         canMove = false;
         rb.gravityScale = 0;
         rb.velocity = Vector2.zero;
-        rb.AddForce(input * dashForce, ForceMode2D.Impulse);
+        rb.AddForce(lastInput * dashForce, ForceMode2D.Impulse);
         audioSource.PlayOneShot(dash);
         yield return new WaitForSeconds(dashTime);
         rb.velocity = input * wallSurfSpeed;
@@ -266,6 +296,13 @@ public class PlayerController : MonoBehaviour
 
     public void IncreaseScore(int amount){
         gameController.gameObject.GetComponent<UIController>().UpdateScoreUI(amount);
+    }
+    public void SetControls(bool keyboard) {
+        if(keyboard) {
+            usingKeyboard = true;
+        } else {
+            usingKeyboard = false;
+        }
     }
 
 

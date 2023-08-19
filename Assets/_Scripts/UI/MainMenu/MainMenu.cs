@@ -18,12 +18,14 @@ public class MainMenu : MonoBehaviour
     [SerializeField] GameObject musicPlayer;
     [SerializeField] AudioSource menuAudioSource;
     [SerializeField] AudioClip[] menuAudio;
+    [SerializeField] TMP_Dropdown controlsDropdown;
 
     public AudioClip hoverSound;
     public AudioClip pressSound;
     public AudioMixer mixer;
 
     private const string userNameKey = "UserName";
+    private const string controlsKey = "Controls";
     private const string musicVolumeKey = "MusicVolume";
     private const string soundVolumeKey = "SoundVolume";
     private float defaultVolume = 50f;
@@ -67,6 +69,11 @@ public class MainMenu : MonoBehaviour
         {
             soundSlider.value = defaultVolume;
         }
+        if(PlayerPrefs.HasKey(controlsKey)) {
+            controlsDropdown.value = PlayerPrefs.GetInt(controlsKey);
+        } else {
+            controlsDropdown.value = 0;
+        }
         ChangePercentages();
     }
 
@@ -90,6 +97,7 @@ public class MainMenu : MonoBehaviour
         musicPercent.text = Mathf.RoundToInt((musicSlider.value * 100f)).ToString() + "%";
         soundPercent.text = Mathf.RoundToInt((soundSlider.value * 100f)).ToString() + "%";
     }
+
     
 
     public void SavePlayerData(){   
@@ -97,6 +105,7 @@ public class MainMenu : MonoBehaviour
 
         PlayerPrefs.SetFloat(musicVolumeKey, musicSlider.value);
         PlayerPrefs.SetFloat(soundVolumeKey, soundSlider.value);
+        PlayerPrefs.SetInt(controlsKey, controlsDropdown.value);
 
         PlayerPrefs.Save();
         
