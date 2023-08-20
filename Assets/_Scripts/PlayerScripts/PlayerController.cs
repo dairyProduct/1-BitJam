@@ -269,7 +269,7 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         gameController.gameObject.GetComponent<UIController>().PlayFadeOut();
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(6.5f);
         GetComponent<SpriteRenderer>().enabled = true;
         GetComponent<TrailRenderer>().enabled = true;
         SceneManager.LoadScene("Main_01"); //resets the level
